@@ -25,7 +25,7 @@ Il existe deux manières d'utiliser Lean, en ligne ou en en local. La version en
 
 Pour la version en ligne *on vous conseille d'utiliser Google Chrome*. Il faut créer un *github codespace* en cliquant le bouton suivant (utiliser `ctrl+click` pour l'ouvrir dans une nouvelle onglet)
 
-<a href='https://codespaces.new/riccardobrasca/demontrer2025' target="_blank"><img src='https://github.com/codespaces/badge.svg' alt='Créer le GitHub Codespaces (utiliser seulement une fois !)' style='max-width: 100%;'></a>
+<a href='https://codespaces.new/ADedecker/demontrer2026' target="_blank"><img src='https://github.com/codespaces/badge.svg' alt='Créer le GitHub Codespaces (utiliser seulement une fois !)' style='max-width: 100%;'></a>
 
 Il faut un compte github et la procédure prend quelques minutes, mais il n'y a rien d'autre à faire.
 
@@ -47,7 +47,7 @@ wget -q --no-check-certificate https://adedecker.pages.math.cnrs.fr/files/instal
 
 *L'étape ci-dessus est à faire seulement une fois !*
 
-* lancez VS Code et ouvrez *le dossier*, pas un fichier ! (C'est "Open Fodelr" ou `Ctlr+K Ctrl+O` et après selectioner le dossier `demontrer2026`). ![1](img/1.png) ![2](img/2.png)
+* lancez VS Code et ouvrez *le dossier*, pas un fichier ! (C'est "Open Folder" ou `Ctlr+K Ctrl+O` et après selectioner le dossier `demontrer2026`). ![1](img/1.png) ![2](img/2.png)
 * VS Code vous demande si vous faites confiance au logiciel, dites "Yes, I trust the authors".
 * Dans le menu à gauche, sélectionnez `Math2001/01_Proofs_by_Calculation02_Proving_Equalities_in_Lean.lean/`. En allant avec le curseur à la fine de ligne `#eval 1 + 1` vous devez voire `2` dans la partie à droite de l'écran. Si c'est le cas Lean fonctionne, sinon demandez de l'aide. ![3](img/3.png)
 
@@ -63,4 +63,4 @@ Vous pouvez aussi regarder le [guide officiel](https://docs.lean-lang.org/lean4/
 
 ## Presentation du cours 
 
-Nous suivons le [cours de Heather Macbeth](https://hrmacbeth.github.io/math2001/index.html). Vous trouverez dans son livre (en anglais) beaucoup plus de matériel que dans le cours, n'hésitez pas à y aller si vous êtes curieux. La [liste de tactiques](https://hrmacbeth.github.io/math2001/Index_of_Tactics.html) sera sans doute utile pour tout le monde.
+Nous nous basons sur le [cours de Heather Macbeth](https://hrmacbeth.github.io/math2001/index.html). Vous trouverez dans son livre (en anglais) beaucoup plus de matériel que dans le cours, n'hésitez pas à y aller si vous êtes curieux. La [liste de tactiques](https://hrmacbeth.github.io/math2001/Index_of_Tactics.html) sera sans doute utile pour tout le monde.
