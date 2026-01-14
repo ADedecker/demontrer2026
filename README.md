@@ -3,7 +3,7 @@
 ## Bienvenue
 Bonjour à toustes,
 
-Bienvenue dans ce cours Démontrer avec un ordinateur, proposé par Riccardo Brasca et Evmorfia-Iro Bartzia !
+Bienvenue dans ce cours Démontrer avec un ordinateur, proposé par Evmorfia-Iro Bartzia et Anatole Dedecker !
 
 Dans ce cours, nous allons utiliser le logiciel *Lean* pour explorer le thème de la démonstration assistée par ordinateur : utiliser un logiciel pour nous aider dans l'écriture des démonstrations mathématiques et vérifier que ces démonstrations sont correctes. C'est une activité qui remonte aux années 50, mais c'est une activité de recherche à la frontière des mathématiques et de l'informatique qui a connu des succès spectaculaires dans les dernières années.
 
@@ -42,12 +42,12 @@ Pour utiliser Lean sur un ordinateur il faut installer le logiciel. L'installati
 * une fois connecté avec votre compte (PAS guest), ouvrez un terminal et copiez-collez la commande suivante (ça peut prendre une dizaine de minutes)
 
 ```
-wget -q --no-check-certificate https://webusers.imj-prg.fr/~riccardo.brasca/files/install.sh && bash install.sh && source ~/.profile && cd demontrer2025 && lake exe cache get! && lake build Library
+wget -q --no-check-certificate https://adedecker.pages.math.cnrs.fr/files/install.sh && bash install.sh && source ~/.profile && cd demontrer2026 && lake exe cache get! && lake build Library
 ```
 
 *L'étape ci-dessus est à faire seulement une fois !*
 
-* lancez VS Code et ouvrez *le dossier*, pas un fichier ! (C'est "Open Fodelr" ou `Ctlr+K Ctrl+O` et après selectioner le dossier `demontrer2025`). ![1](img/1.png) ![2](img/2.png)
+* lancez VS Code et ouvrez *le dossier*, pas un fichier ! (C'est "Open Fodelr" ou `Ctlr+K Ctrl+O` et après selectioner le dossier `demontrer2026`). ![1](img/1.png) ![2](img/2.png)
 * VS Code vous demande si vous faites confiance au logiciel, dites "Yes, I trust the authors".
 * Dans le menu à gauche, sélectionnez `Math2001/01_Proofs_by_Calculation02_Proving_Equalities_in_Lean.lean/`. En allant avec le curseur à la fine de ligne `#eval 1 + 1` vous devez voire `2` dans la partie à droite de l'écran. Si c'est le cas Lean fonctionne, sinon demandez de l'aide. ![3](img/3.png)
 
