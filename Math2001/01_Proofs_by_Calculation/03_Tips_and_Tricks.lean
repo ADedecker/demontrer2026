@@ -13,16 +13,19 @@ example {a b : ℤ} (h1 : a = 2 * b + 5) (h2 : b = 3) : a = 11 := by
   sorry
   done
 
+-- introduire addarith ici
 -- Example 1.3.2
 example {x : ℤ} (h1 : x + 4 = 2) : x = -2 := by
   sorry
   done
 
+-- introduire have ici
 -- Example 1.3.3
 example {a b : ℝ} (h1 : a - 5 * b = 4) (h2 : b + 2 = 3) : a = 9 := by
   sorry
   done
 
+--
 -- Example 1.3.4
 example {w : ℚ} (h1 : 3 * w + 1 = 4) : w = 1 := by
   sorry
