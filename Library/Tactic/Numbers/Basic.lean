@@ -28,10 +28,10 @@ This can be done via an initializion command which is run in each file; for exam
 open Lean Meta Elab
 open Parser.Tactic Mathlib.Meta.NormNum
 
-def Library.Tactic.numbersDischarger (g : MVarId): MetaM (Option (List MVarId)) :=
+def Library.Tactic.numbersDischarger (g : MVarId) : MetaM (Option (List MVarId)) :=
   Term.TermElabM.run' do
   match ← Tactic.run g <|
-    elabNormNum mkNullNode Syntax.missing mkNullNode (simpOnly := true) (useSimp := false) with
+    elabNormNum mkNullNode mkNullNode Syntax.missing (simpOnly := true) (useSimp := false) with
   | [] => pure (some [])
   | _ => failure
 
