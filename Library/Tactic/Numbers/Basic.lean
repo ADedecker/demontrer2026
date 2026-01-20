@@ -54,7 +54,7 @@ over numerical types such as `ℕ`, `ℤ`, `ℚ`, `ℝ`, `ℂ` and some general 
 and can prove goals of the form `A = B`, `A ≠ B`, `A < B` and `A ≤ B`, where `A` and `B` are
 numerical expressions.
 -/
-elab (name := numbers) "numbers" : tactic =>
+elab (name := numbersFoo) "numbers_foo" : tactic =>
   Tactic.liftMetaTactic <| fun g => do
     let cfg : Lean.Meta.SolveByElim.SolveByElimConfig :=
       { maxDepth := 8, discharge := Library.Tactic.numbersDischarger, exfalso := false,
@@ -67,7 +67,15 @@ elab (name := numbersCore) "numbers_core" loc:(location ?) : tactic => do
   elabNormNum mkNullNode Syntax.missing loc (simpOnly := true) (useSimp := false)
   Tactic.done
 
---@[inherit_doc numbers]
+@[inherit_doc numbersFoo]
+macro (name := numbers) "numbers" : tactic =>
+  `(tactic
+    | first
+    | numbers_foo
+    | numbers_core
+    | fail "Numbers tactic failed. Maybe the goal is not in scope for the tactic (i.e. the goal is not a pure numeric statement), or maybe the goal is false?")
+
+@[inherit_doc numbers]
 macro (name := numbersAt) "numbers" loc:location : tactic => `(tactic | numbers_core $loc)
 
 macro (name := normNumCmd) "#numbers" ppSpace e:term : command =>
@@ -75,7 +83,7 @@ macro (name := normNumCmd) "#numbers" ppSpace e:term : command =>
 
 open Tactic
 
---@[inherit_doc numbers]
+@[inherit_doc numbers]
 syntax (name := numbersConv) "numbers" : conv
 
 /-- Elaborator for `numbers` conv tactic. -/

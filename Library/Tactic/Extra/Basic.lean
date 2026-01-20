@@ -20,7 +20,7 @@ macro (name := extra) "extra" : tactic =>
   `(tactic
     | first
     | aesop (rule_sets := [extra, -builtin, -default])
-        (config := { terminal := false, enableSimp := false })
+        (config := { terminal := true, enableSimp := false })
     | fail "out of scope: extra proves relations between a LHS and a RHS differing by some neutral quantity for the relation")
 
 lemma IneqExtra.neg_le_sub_self_of_nonneg [AddCommGroup G] [LinearOrder G] [IsOrderedAddMonoid G] {a b : G} (h : 0 ≤ a) :

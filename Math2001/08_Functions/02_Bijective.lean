@@ -39,7 +39,7 @@ example : ¬ Bijective a := by
   · calc a 0 = 0 ^ 3 - 0 := by dsimp [a]
       _ = 1 ^ 3 - 1 := by numbers
       _ = a 1 := by dsimp [a]
-  · numbers_core
+  · numbers
   done
 
 example {X Y : Type} {f : X → Y} : Bijective f ↔ ∀ y, ∃! x, f x = y := by

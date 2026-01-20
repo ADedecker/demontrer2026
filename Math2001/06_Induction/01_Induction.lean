@@ -21,7 +21,7 @@ example (n : ℕ) : 2 ^ n ≥ n + 1 := by
 example {n : ℕ} (hn : 2 ≤ n) : (3:ℤ) ^ n ≥ 2 ^ n + 5 := by
   induction_from_starting_point n, hn with k hk IH
   · -- base case
-    numbers
+    numbers_foo
   · -- inductive step
     calc (3:ℤ) ^ (k + 1) = 2 * 3 ^ k + 3 ^ k := by ring
       _ ≥ 2 * (2 ^ k + 5) + 3 ^ k := by rel [IH]
