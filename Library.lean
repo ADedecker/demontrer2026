@@ -18,7 +18,6 @@ import Library.Theory.ParityModular
 import Library.Theory.Prime
 import Library.Tactic.Addarith
 import Library.Tactic.Cancel
-import Library.Tactic.Exhaust
 import Library.Tactic.Extra.Attr
 import Library.Tactic.Extra.Basic
 import Library.Tactic.Extra.ModEq
