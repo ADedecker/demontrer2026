@@ -8,22 +8,39 @@ math2001_init
 
 Exercice : Traduire en Lean les preuves dans le texte -/
 
+-- revision calc easy
 -- Example 1.3.1
 example {a b : ℤ} (h1 : a = 2 * b + 5) (h2 : b = 3) : a = 11 := by
-  sorry
+  calc a = 2 * b + 5 := by rw [h1]
+    _    = 2*3 +5 := by rw [h2]
+    _    = 11 := by ring
   done
+
 
 -- introduire addarith ici
 -- Example 1.3.2
 example {x : ℤ} (h1 : x + 4 = 2) : x = -2 := by
-  sorry
+  calc x = (x+4)-4 := by ring
+    _    =  2 -4 := by rw [h1]
+    _    = -2 := by ring
   done
+
+example {x : ℤ} (h1 : x + 4 = 2) : x = -2 := by
+  addarith [h1]
+  done
+
 
 -- introduire have ici
 -- Example 1.3.3
 example {a b : ℝ} (h1 : a - 5 * b = 4) (h2 : b + 2 = 3) : a = 9 := by
-  sorry
+  have HB : b = 1 := by
+    addarith [h2]
+    done
+  calc a = 4 + 5*b := by addarith [h1]
+      _  = 4 + 5*1 := by rw [HB]
+      _  = 9 := by ring
   done
+
 
 --
 -- Example 1.3.4
