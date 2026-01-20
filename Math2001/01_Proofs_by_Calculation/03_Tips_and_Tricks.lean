@@ -9,8 +9,11 @@ math2001_init
 Exercice : Traduire en Lean les preuves dans le texte -/
 
 -- Example 1.3.1
-example {a b : ℤ} (h1 : a = 2 * b + 5) (h2 : b = 3) : a = 11 := by
-  sorry
+example {a b : ℚ} (h1 : a = 2 * b + 5) (h2 : b = 3) : a = 11 := by
+  calc  a
+    _ = 2 * b + 5 := by rw [h1]
+    _ = 2 * 3 + 5 := by rw [h2]
+    _ = 11 := by ring
   done
 
 -- Example 1.3.2
@@ -20,6 +23,11 @@ example {x : ℤ} (h1 : x + 4 = 2) : x = -2 := by
 
 -- Example 1.3.3
 example {a b : ℝ} (h1 : a - 5 * b = 4) (h2 : b + 2 = 3) : a = 9 := by
+  have : b = 1 := by
+    calc  b
+      _ = (b + 2) - 2 := by ring
+      _ = (b + 2) - 2 := by ring
+    done
   sorry
   done
 

@@ -5,7 +5,7 @@ import Library.Basic
 math2001_init
 
 
--- lemma ne_of_lt (a b : ℝ ) (h : a < b) : a ≠ b
+-- lemma ne_of_lt (a b : ℝ) (h : a < b) : a ≠ b
 
 -- lemma ne_of_gt {a b : ℝ} (h : a > b) : a ≠ b
 
