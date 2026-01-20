@@ -30,7 +30,7 @@ r = -7 := by
     r = r + 2 * s - 2 * s := by ring
     _ = -1 - 2 * s := by rw [h2]
     _ = -1 - 2 * 3 := by rw [h1]
-    _ = -7 := by ring
+    _ = -7 := by numbers
   done
 
 -- Example 1.2.4.

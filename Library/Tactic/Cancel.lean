@@ -1,5 +1,5 @@
 /- Copyright (c) Heather Macbeth, 2023.  All rights reserved. -/
-import Mathlib.Algebra.GroupPower.Order
+import Mathlib.Algebra.Order.GroupWithZero.Unbundled.Basic
 import Mathlib.Tactic.Positivity
 
 open Lean

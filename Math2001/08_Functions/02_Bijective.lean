@@ -94,7 +94,7 @@ example : ¬ ∀ f : ℕ → ℕ, Injective f → Bijective f := by
     use 0
     intro n
     apply ne_of_gt
-    extra
+    addarith []
   done
 
 /-! # Exercises -/

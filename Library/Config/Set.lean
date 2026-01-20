@@ -4,7 +4,7 @@ import Mathlib.Data.Set.Basic
 open Set
 
 attribute [default_instance] Set.instSingletonSet
-attribute [default_instance] Set.instEmptyCollectionSet
+attribute [default_instance] Set.instEmptyCollection
 
 notation:50 a:50 " ⊈ " b:50 => ¬ (a ⊆ b)
 

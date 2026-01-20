@@ -17,18 +17,18 @@ import Library.Tactic.Extra.Basic
 import Library.Tactic.Induction
 import Library.Tactic.Numbers.Basic
 import Library.Tactic.Obtain
-import Library.Tactic.TruthTable
 
 notation3 (prettyPrint := false) "forall_sufficiently_large "(...)", "r:(scoped P => ∃ C, ∀ x ≥ C, P x) => r
 
-macro "linarith" linarithArgsRest : tactic => `(tactic | fail "linarith tactic disabled")
-macro "nlinarith" linarithArgsRest : tactic => `(tactic | fail "nlinarith tactic disabled")
-macro "linarith!" linarithArgsRest : tactic => `(tactic | fail "linarith! tactic disabled")
-macro "nlinarith!" linarithArgsRest : tactic => `(tactic | fail "nlinarith! tactic disabled")
+macro "linarith" Mathlib.Tactic.linarithArgsRest : tactic => `(tactic | fail "linarith tactic disabled")
+macro "nlinarith" Mathlib.Tactic.linarithArgsRest : tactic => `(tactic | fail "nlinarith tactic disabled")
+macro "linarith!" Mathlib.Tactic.linarithArgsRest : tactic => `(tactic | fail "linarith! tactic disabled")
+macro "nlinarith!" Mathlib.Tactic.linarithArgsRest : tactic => `(tactic | fail "nlinarith! tactic disabled")
 macro "polyrith" : tactic => `(tactic | fail "polyrith tactic disabled")
 macro "decide" : tactic => `(tactic | fail "decide tactic disabled")
 macro "aesop" : tactic => `(tactic | fail "aesop tactic disabled")
 macro "tauto" : tactic => `(tactic | fail "tauto tactic disabled")
+macro "grind" : tactic => `(tactic | fail "grind tactic disabled")
 
 open Lean.Parser.Tactic in
 macro "simp"  (&" only")?  (" [" withoutPosition((simpStar <|> simpErase <|> simpLemma),*) "]")?
@@ -52,7 +52,8 @@ attribute [-norm_num] Mathlib.Meta.NormNum.evalNatDvd
 -/
 elab "math2001_init" : command => do
   trySetOptions #[
-    ⟨`push_neg.use_distrib, true⟩
+    ⟨`push_neg.use_distrib, true⟩,
+    ⟨`linter.unusedTactic, false⟩
   ]
   tryEraseAttrs #[
     ⟨`simp, #[`ne_eq]⟩,

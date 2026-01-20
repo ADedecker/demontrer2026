@@ -27,8 +27,7 @@ theorem Int.existsUnique_quotient_remainder (a b : ℤ) (h : 0 < b) :
   funext r
   congr
   funext q
-  rw [add_comm]
-  exact IsSymmOp.symm_op a (r + b * q)
+  rw [add_comm, eq_comm (a := a)]
 
 /-- The division algorithm. -/
 theorem Nat.existsUnique_quotient_remainder (a b : ℕ) (h : 0 < b) :
@@ -37,8 +36,7 @@ theorem Nat.existsUnique_quotient_remainder (a b : ℕ) (h : 0 < b) :
   funext r
   congr
   funext q
-  rw [add_comm]
-  exact IsSymmOp.symm_op a (r + b * q)
+  rw [add_comm, eq_comm (a := a)]
 
 /-- The division algorithm, weak form. -/
 theorem Int.exists_quotient_remainder (a b : ℤ) (h : 0 < b) :
