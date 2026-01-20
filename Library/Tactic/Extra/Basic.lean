@@ -9,6 +9,8 @@ A tactic which proves goals such as
 
 -/
 
+--#check Aesop.Options
+
 -- See https://leanprover.zulipchat.com/#narrow/stream/270676-lean4/topic/hygiene.20question.3F/near/313556764
 set_option hygiene false in
 /-- The `extra` tactic proves relations between a LHS and a RHS differing by some neutral quantity
@@ -17,11 +19,11 @@ LHS, `68 * n ^ 2`, is nonnegative (i.e. neutral for the relation `≥`). -/
 macro (name := extra) "extra" : tactic =>
   `(tactic
     | first
-    | aesop (rule_sets := [extra, -builtin, -default]) (simp_config := { enabled := false })
-        (config := { terminal := true })
+    | aesop (rule_sets := [extra, -builtin, -default])
+        (config := { terminal := false, enableSimp := false })
     | fail "out of scope: extra proves relations between a LHS and a RHS differing by some neutral quantity for the relation")
 
-lemma IneqExtra.neg_le_sub_self_of_nonneg  [AddCommGroup G] [LinearOrder G] [IsOrderedAddMonoid G] {a b : G} (h : 0 ≤ a) :
+lemma IneqExtra.neg_le_sub_self_of_nonneg [AddCommGroup G] [LinearOrder G] [IsOrderedAddMonoid G] {a b : G} (h : 0 ≤ a) :
     -b ≤ a - b := by
   rw [sub_eq_add_neg]
   apply le_add_of_nonneg_left h
