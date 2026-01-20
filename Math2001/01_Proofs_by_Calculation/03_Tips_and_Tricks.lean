@@ -27,6 +27,7 @@ example {a b : ℝ} (h1 : a - 5 * b = 4) (h2 : b + 2 = 3) : a = 9 := by
     calc  b
       _ = (b + 2) - 2 := by ring
       _ = (b + 2) - 2 := by ring
+    sorry
     done
   sorry
   done
