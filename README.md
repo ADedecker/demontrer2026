@@ -49,7 +49,7 @@ wget -q --no-check-certificate https://adedecker.pages.math.cnrs.fr/files/instal
 
 * lancez VS Code et ouvrez *le dossier*, pas un fichier ! (C'est "Open Folder" ou `Ctlr+K Ctrl+O` et après selectioner le dossier `demontrer2026`). ![1](img/1.png) ![2](img/2.png)
 * VS Code vous demande si vous faites confiance au logiciel, dites "Yes, I trust the authors".
-* Dans le menu à gauche, sélectionnez `Math2001/01_Proofs_by_Calculation02_Proving_Equalities_in_Lean.lean/`. En allant avec le curseur à la fine de ligne `#eval 1 + 1` vous devez voire `2` dans la partie à droite de l'écran. Si c'est le cas Lean fonctionne, sinon demandez de l'aide. ![3](img/3.png)
+* Dans le menu à gauche, sélectionnez `Math2001/01_Proofs_by_Calculation/02_Proving_Equalities_in_Lean.lean/`. En allant avec le curseur à la fin de ligne `#eval 1 + 1` vous devez voire `2` dans la partie à droite de l'écran. Si c'est le cas Lean fonctionne, sinon demandez de l'aide. ![3](img/3.png)
 
 ### Installation sur un ordinateur personnel
 
