@@ -19,18 +19,41 @@ example {x y : ℤ} (hx : x + 3 ≤ 2) (hy : y + 2 * x ≥ 3) : y > 3 := by
 
 -- Example 1.4.2
 -- Exercice : remplacez les mots `sorry` par une tactique en Lean.
+-- JE L'AI FAIT SANS REFLECHIR / COMPRENDRE LA PREUVE
 example {r s : ℚ} (h1 : s + 3 ≥ r) (h2 : s + r ≤ 3) : r ≤ 3 := by
   calc
-    r = (s + r + r - s) / 2 := by sorry
-    _ ≤ (3 + (s + 3) - s) / 2 := by sorry
-    _ = 3 := by sorry
+    r = (s + r + r - s) / 2 := by ring
+    _ ≤ (3 + (s + 3) - s) / 2 := by rel [h2, h1]
+    _ = 3 := by ring
+  done
+
+-- PREUVE AVEC DES ETAPES INTERMEDIAIRES
+example {r s : ℚ} (h1 : s + 3 ≥ r) (h2 : s + r ≤ 3) : r ≤ 3 := by
+  have h3 : r - s ≤ 3 := by addarith [h1]
+  have h4 : 2*r ≤ 6 := by
+    calc 2 * r = (s + r) + (r - s) := by ring
+      _        ≤ 3 + (r - s) := by rel [h2]
+      _        ≤ 3 + 3 := by rel [h3]
+      _        = 6 := by ring
+    done
+  calc r = (2*r)/2 := by ring
+      _  ≤ 6 / 2 := by rel [h4]
+      _ = 3 := by numbers
+  done
   done
 
 -- Example 1.4.3
 -- Exercice : écrire l'ensemble de la preuve dans comme une preuve en Lean.
+-- ADDARITH JE NE COMPRENDS PAS CE QU'IL FAIT EXACTEMENT
 example {x y : ℝ} (h1 : y ≤ x + 5) (h2 : x ≤ -2) : x + y < 2 := by
-  sorry
+  calc x + y ≤ (x+5) - 2 := by addarith[h1, h2]
+      _      = x + 3 := by ring
+      _      ≤ -2 + 3 := by rel [h2]
+      _      = 1 := by ring
+      _      < 2 := by numbers
   done
+
+
 
 -- Example 1.4.4
 -- Exercice : remplacez les mots `sorry` par une tactique en Lean.
@@ -46,6 +69,7 @@ example {u v x y A B : ℝ} (h1 : 0 < A) (h2 : A ≤ 1) (h3 : 1 ≤ B) (h4 : x �
     _ < A * B + A * B + B * A := by sorry
     _ = 3 * A * B := by sorry
   done
+
 
 -- Example 1.4.5
 -- Exercice : remplacez les mots `sorry` par une tactique en Lean.
