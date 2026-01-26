@@ -42,30 +42,64 @@ example {a b : ℝ} (h1 : a - 5 * b = 4) (h2 : b + 2 = 3) : a = 9 := by
   done
 
 
+-- EST-CE QUE CA VAUT LA PEINE DE FAIRE LES CALCS SUIVANTS ?
 --
+-- addarith ne marche pas
 -- Example 1.3.4
 example {w : ℚ} (h1 : 3 * w + 1 = 4) : w = 1 := by
-  sorry
+  calc w = ((3*w + 1) - 1)/3 := by ring
+    _    = (4-1)/3 := by rw [h1]
+    _    = 1 := by numbers
   done
 
+-- addarith ne marche pas
 -- Example 1.3.5
 example {x : ℤ} (h1 : 2 * x + 3 = x) : x = -3 := by
-  sorry
+  calc x = ((2*x + 3) - x) - 3 := by ring
+    _    = (x - x) - 3 := by rw [h1]
+    _    = -3 := by ring
   done
 
+  ------------------------------------------------
+  -- have + addarith + rw [] at
 -- Example 1.3.6
 example {x y : ℤ} (h1 : 2 * x - y = 4) (h2 : y - x + 1 = 2) : x = 5 := by
-  sorry
+  have H : y = 2*x - 4 := by addarith [h1]
+  rw [H] at h2
+  calc x = (2 * x - 4 - x + 1) + 3 := by ring
+    _    = 2 + 3 := by rw [h2]
+    _    = 5 := by numbers
   done
 
+-- interessant pour montrer qu'on peut structurer la preuve
+-- comme en papier et utiliser le contexte en lean
 -- Example 1.3.7
 example {u v : ℚ} (h1 : u + 2 * v = 4) (h2 : u - 2 * v = 6) : u = 5 := by
-  sorry
+  have H : 2*u = 10 := by
+    calc 2*u = (u + 2 * v) + (u - 2 * v) := by ring
+        _    =  4 + 6 := by rw [h1, h2]
+        _    =  10 := by numbers
+    done
+  calc u = (2*u) / 2 := by ring
+      _  = 10 /2 := by rw [H]
+      _   = 5 := by ring
   done
 
+
+--
 -- Example 1.3.8
 example {x y : ℝ} (h1 : x + y = 4) (h2 : 5 * x - 3 * y = 4) : x = 2 := by
-  sorry
+  have H : y = 4 - x := by addarith [h1]
+  rw [H] at h2
+  have H2 : 8*x = 16 := by
+    calc 8 * x = (5 * x - 3 * (4 - x)) + 12 := by ring
+      _        = 4 + 12 := by rw [h2]
+      _        = 16 := by ring
+    done
+  calc x = (8*x)/8 := by ring
+      _  = 16 / 8 := by rw [H2]
+      _  = 2 := by ring
+  done
   done
 
 /-! # Exercises
