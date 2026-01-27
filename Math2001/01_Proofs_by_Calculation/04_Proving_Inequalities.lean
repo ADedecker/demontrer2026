@@ -131,30 +131,48 @@ Résolvez ces problèmes vous-même.  Il peut être utile de les résoudre sur p
 les saisir dans Lean. -/
 
 
+-- entrainement rel SIMPLE
 example {x y : ℤ} (h1 : x + 3 ≥ 2 * y) (h2 : 1 ≤ y) : x ≥ -1 := by
-  sorry
+  calc x = (x+3)-3 := by ring
+    _    ≥ 2*y -3 := by rel [h1]
+    _    ≥ 2*1 -3 := by rel [h2]
+    _    = -1 := by numbers
   done
 
+-- on doit reflechir
+-- avec HAVE on peut ecrire forward ce qui est plus intuitif
 example {a b : ℚ} (h1 : 3 ≤ a) (h2 : a + 2 * b ≥ 4) : a + b ≥ 3 := by
-  sorry
+  have h4 : (a+2*b)-3 ≥ 4-a := by rel [h2,h1]
+  have h5 : (a+2*b)+a ≥ 4+3 := by addarith [h4]
+  calc a+b = (2*a + 2*b)/ 2 := by ring
+    _      = ((a+2*b)+a) / 2 := by ring
+    _      ≥ (4+3) /2 := by rel [h5]
+    _      ≥ 3 := by numbers
   done
 
+----------- plus technique
+
+-- extra
 example {x : ℤ} (hx : x ≥ 9) : x ^ 3 - 8 * x ^ 2 + 2 * x ≥ 3 := by
   sorry
   done
 
+-- extra
 example {n : ℤ} (hn : n ≥ 10) : n ^ 4 - 2 * n ^ 2 > 3 * n ^ 3 := by
   sorry
   done
 
+-- extra
 example {n : ℤ} (h1 : n ≥ 5) : n ^ 2 - 2 * n + 3 > 14 := by
   sorry
   done
 
+-- extra
 example {x : ℚ} : x ^ 2 - 2 * x ≥ -1 := by
   sorry
   done
 
+-- extra
 example (a b : ℝ) : a ^ 2 + b ^ 2 ≥ 2 * a * b := by
   sorry
   done
