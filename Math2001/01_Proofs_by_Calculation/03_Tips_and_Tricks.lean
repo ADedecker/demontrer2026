@@ -17,6 +17,14 @@ example {a b : ℤ} (h1 : a = 2 * b + 5) (h2 : b = 3) : a = 11 := by
   done
 
 
+example {a b : ℤ} (h1 : a = 2 * b + 5) (h2 : b = 3) : a = 11 := by
+  rw [h2] at h1
+  rw [h1]
+  ring
+  done
+
+
+
 -- introduire addarith ici
 -- Example 1.3.2
 example {x : ℤ} (h1 : x + 4 = 2) : x = -2 := by
@@ -44,7 +52,7 @@ example {a b : ℝ} (h1 : a - 5 * b = 4) (h2 : b + 2 = 3) : a = 9 := by
 
 -- EST-CE QUE CA VAUT LA PEINE DE FAIRE LES CALCS SUIVANTS ?
 --
--- addarith ne marche pas
+-- addarith ne marche pas (il ne gere pas les multiplications)
 -- Example 1.3.4
 example {w : ℚ} (h1 : 3 * w + 1 = 4) : w = 1 := by
   calc w = ((3*w + 1) - 1)/3 := by ring
@@ -52,6 +60,8 @@ example {w : ℚ} (h1 : 3 * w + 1 = 4) : w = 1 := by
     _    = 1 := by numbers
   done
 
+
+-- mettre comme exercice
 -- addarith ne marche pas
 -- Example 1.3.5
 example {x : ℤ} (h1 : 2 * x + 3 = x) : x = -3 := by
@@ -86,7 +96,7 @@ example {u v : ℚ} (h1 : u + 2 * v = 4) (h2 : u - 2 * v = 6) : u = 5 := by
   done
 
 
---
+-- mettre comme exercice
 -- Example 1.3.8
 example {x y : ℝ} (h1 : x + y = 4) (h2 : 5 * x - 3 * y = 4) : x = 2 := by
   have H : y = 4 - x := by addarith [h1]
