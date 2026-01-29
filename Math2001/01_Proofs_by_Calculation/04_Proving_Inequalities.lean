@@ -6,6 +6,7 @@ math2001_init
 
 /-! # Section 1.4: Proving inequalities -/
 
+-- nouvelles tactiques : numbers et rel
 
 -- Example 1.4.1
 example {x y : ℤ} (hx : x + 3 ≤ 2) (hy : y + 2 * x ≥ 3) : y > 3 := by
@@ -43,8 +44,6 @@ example {r s : ℚ} (h1 : s + 3 ≥ r) (h2 : s + r ≤ 3) : r ≤ 3 := by
   done
 
 -- Example 1.4.3
--- Exercice : écrire l'ensemble de la preuve dans comme une preuve en Lean.
--- ADDARITH JE NE COMPRENDS PAS CE QU'IL FAIT EXACTEMENT
 example {x y : ℝ} (h1 : y ≤ x + 5) (h2 : x ≤ -2) : x + y < 2 := by
   calc x + y ≤ (x+5) - 2 := by addarith[h1, h2]
       _      = x + 3 := by ring
@@ -73,14 +72,36 @@ example {u v x y A B : ℝ} (h1 : 0 < A) (h2 : A ≤ 1) (h3 : 1 ≤ B) (h4 : x �
 
 -- Example 1.4.5
 -- Exercice : remplacez les mots `sorry` par une tactique en Lean.
+-- astuce t*t ≥ 10t
 example {t : ℚ} (ht : t ≥ 10) : t ^ 2 - 3 * t - 17 ≥ 5 := by
-  sorry
+  have h : t^2 ≥ 10*t := by
+    calc t^2 = t*t := by ring
+      _      ≥ 10*t := by rel[ht]
+  calc t^ 2 - 3 * t -17 ≥ 10*t - 3*t -17 := by rel [h]
+                  _     = 7*t - 17 := by ring
+                  _     ≥ 7*10 - 17 := by rel [ht]
+                  _     ≥ 5 := by numbers
   done
 
 -- Example 1.4.6
+-- same as above
+/- n^2 -2n -11 > 0
+  n^2 - 2n - 11 > 5n - 2n -11 = 3n - 11 > 3*5 - 11 = 4 > 0
+ -/
 example {n : ℤ} (hn : n ≥ 5) : n ^ 2 > 2 * n + 11 := by
-  sorry
+  have H0 : n^2 ≥ 5*n := by
+    calc n^2 = n*n := by ring
+      _      ≥ 5*n := by rel[hn]
+  have H1 : n^2 - 2*n - 11 > 0 := by
+    calc n^2 - 2*n - 11 ≥ 5*n - 2*n - 11 := by rel [H0]
+                      _ = 3*n - 11 := by ring
+                      _ ≥ 3*5 - 11 := by rel [hn]
+                      _ = 4 := by numbers
+                      _ > 0 := by numbers
+  addarith [H1]
   done
+
+
 
 -- Example 1.4.7
 example {m n : ℤ} (h : m ^ 2 + n ≤ 2) : n ≤ 2 := by
@@ -92,6 +113,7 @@ example {m n : ℤ} (h : m ^ 2 + n ≤ 2) : n ≤ 2 := by
 
 -- Example 1.4.8
 -- Exercice : remplacez les mots `sorry` par une tactique en Lean.
+-- calc blocks - on laisse comme ca au debut de la fiche ?
 example {x y : ℝ} (h : x ^ 2 + y ^ 2 ≤ 1) : (x + y) ^ 2 < 3 := by
   calc
     (x + y) ^ 2 ≤ (x + y) ^ 2 + (x - y) ^ 2 := by sorry
@@ -102,6 +124,7 @@ example {x y : ℝ} (h : x ^ 2 + y ^ 2 ≤ 1) : (x + y) ^ 2 < 3 := by
 
 -- Example 1.4.9
 -- Exercice : remplacez les mots `sorry` par une tactique en Lean.
+-- calc blocks - on laisse comme ca au debut de la fiche ?
 example {a b : ℚ} (h1 : a ≥ 0) (h2 : b ≥ 0) (h3 : a + b ≤ 8) : 3 * a * b + a ≤ 7 * b + 72 := by
   calc
     3 * a * b + a
@@ -150,29 +173,62 @@ example {a b : ℚ} (h1 : 3 ≤ a) (h2 : a + 2 * b ≥ 4) : a + b ≥ 3 := by
     _      ≥ 3 := by numbers
   done
 
------------ plus technique
 
--- extra
+----------- meme technique
+
+
 example {x : ℤ} (hx : x ≥ 9) : x ^ 3 - 8 * x ^ 2 + 2 * x ≥ 3 := by
-  sorry
+  have H0 : x^3 ≥ 9*x^2 := by
+    calc x^3 = x*x^2 := by ring
+        _    ≥ 9*x^2 := by rel [hx]
+  calc x^3 - 8*x^2 +2*x ≥ 9*x^2 - 8*x^2 + 2*x := by rel [H0]
+                      _ = x^2 + 2*x := by ring
+                      _ = x*x + 2*x := by ring
+                      _ ≥ 9*9 + 2*9 := by rel [hx]
+                      _ ≥ 3 := by numbers
   done
 
--- extra
+
+
+-- un peu chiant n^4
+-- extra fait un peu trop ici (elle trouve que n!=0)
 example {n : ℤ} (hn : n ≥ 10) : n ^ 4 - 2 * n ^ 2 > 3 * n ^ 3 := by
-  sorry
+  have h0 : n^2 > 0 := by extra
+  have H0 : (n^2 - 3*n - 2) > 0 := by
+    calc n^2 - 3*n - 2 = n*n - 3*n - 2 := by ring
+                    _  ≥ 10*n- 3*n - 2 := by rel [hn]
+                    _ = 7*n - 2 := by ring
+                    _ ≥ 7*10 - 2 := by rel [hn]
+                    _ > 0 := by numbers
+  have H1 : n ^ 4 - 2 * n ^ 2 - 3 * n ^ 3 > 0 := by
+    calc n ^ 4 - 2 * n ^ 2 - 3 * n ^ 3 = n^2 * (n^2 - 3*n - 2) := by ring
+                                    _  > 0*0 := by rel [h0, H0] -- extra le fait aussi
+                                    _ = 0 := by numbers
+  addarith [H1]
   done
 
--- extra
+-- meme technique de decomposition
 example {n : ℤ} (h1 : n ≥ 5) : n ^ 2 - 2 * n + 3 > 14 := by
-  sorry
+  calc n ^ 2 - 2 * n + 3 = n*n - 2*n + 3 := by ring
+                      _  ≥ 5*n - 2*n + 3 := by rel [h1]
+                      _  = 3*n + 3 := by ring
+                      _  ≥ 3*5 + 3 := by rel [h1]
+                      _ > 14 := by numbers
   done
 
--- extra
+----------------------------------------
+-- extra simple (move up ?)
 example {x : ℚ} : x ^ 2 - 2 * x ≥ -1 := by
-  sorry
+  have H : x ^ 2 - 2 * x + 1 ≥ 0 := by
+    calc x ^ 2 - 2 * x + 1 = (x-1)^2 := by ring
+                        _  ≥ 0 := by extra
+  addarith [H]
   done
 
--- extra
+-- extra simple (move up)
 example (a b : ℝ) : a ^ 2 + b ^ 2 ≥ 2 * a * b := by
-  sorry
+  have H : a^2 + b^2 - 2*a*b ≥ 0 := by
+    calc a^2 + b^2 - 2*a*b = (a-b)^2 := by ring
+                      _    ≥ 0 := by extra
+  addarith [H]
   done

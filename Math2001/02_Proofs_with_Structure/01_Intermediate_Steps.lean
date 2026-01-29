@@ -63,6 +63,8 @@ example (a b : ℝ) (h1 : -b ≤ a) (h2 : a ≤ b) : a ^ 2 ≤ b ^ 2 := by
   sorry
   done
 
+-- il faut le faire au tableau sans faire une preuve par cas (technique)
+-- peut-etre pour introduire le OR
 example (a b : ℝ) (h : a ≤ b) : a ^ 3 ≤ b ^ 3 := by
   sorry
   done
