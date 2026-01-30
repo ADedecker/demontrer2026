@@ -60,10 +60,9 @@ example {a b : ℝ} (h1 : a ^ 2 = b ^ 2 + 1) (h2 : a ≥ 0) : a ≥ 1 := by
 -- chiant avec l histoire des signes
 --
 example {x y : ℤ} (hx : x + 3 ≤ 2) (hy : y + 2 * x ≥ 3) : y > 3 := by
-  have h1 : x ≤ -1 := by addarith [hx]
-  have h2 : - 2*x ≥ 2 := by
-    calc - 2 * x ≥ - 2 * (-1) := by rel [h1]
-              _  = 2 := by numbers
+  have h0 : x ≤ -1 := by addarith [hx]
+  have h1 : 2 * x ≤ 2 * (-1) := by rel [h0]
+  have h2 : - 2*x ≥ 2 := by addarith [h1]
   have h3 : y ≥ 3 - 2*x := by addarith [hy]
   calc y ≥ 3 - 2*x := by rel [h3]
       _  = 3 + (-2 * x) := by ring
