@@ -56,17 +56,21 @@ example {x y : ℝ} (h1 : y ≤ x + 5) (h2 : x ≤ -2) : x + y < 2 := by
 
 -- Example 1.4.4
 -- Exercice : remplacez les mots `sorry` par une tactique en Lean.
+-- pas sure que cet exercice est interessant car c'est difficile de lire
+-- le contexte quand on est dans le calc block
+-- pedagogiquement c'est interessant car c'est une preuve avec des trous
+-- mais elle est tres syntaxique, on ne doit pas forcement comprendre l'enoncé
 example {u v x y A B : ℝ} (h1 : 0 < A) (h2 : A ≤ 1) (h3 : 1 ≤ B) (h4 : x ≤ B)
     (h5 : y ≤ B) (h6 : 0 ≤ u) (h7 : 0 ≤ v) (h8 : u < A) (h9 : v < A) :
     u * y + v * x + u * v < 3 * A * B := by
   calc
     u * y + v * x + u * v
-      ≤ u * B + v * B + u * v := by sorry
-    _ ≤ A * B + A * B + A * v := by sorry
-    _ ≤ A * B + A * B + 1 * v := by sorry
-    _ ≤ A * B + A * B + B * v := by sorry
-    _ < A * B + A * B + B * A := by sorry
-    _ = 3 * A * B := by sorry
+      ≤ u * B + v * B + u * v := by rel[h4, h5]
+    _ ≤ A * B + A * B + A * v := by rel [h8, h9]
+    _ ≤ A * B + A * B + 1 * v := by rel [h2]
+    _ ≤ A * B + A * B + B * v := by rel [h3]
+    _ < A * B + A * B + B * A := by rel [h9]
+    _ = 3 * A * B := by ring
   done
 
 
@@ -113,28 +117,33 @@ example {m n : ℤ} (h : m ^ 2 + n ≤ 2) : n ≤ 2 := by
 
 -- Example 1.4.8
 -- Exercice : remplacez les mots `sorry` par une tactique en Lean.
--- calc blocks - on laisse comme ca au debut de la fiche ?
+-- preuve par trous
+-- interessant mais on n'est pas obligés de comprendre l'enoncé pour le demontrer
 example {x y : ℝ} (h : x ^ 2 + y ^ 2 ≤ 1) : (x + y) ^ 2 < 3 := by
   calc
-    (x + y) ^ 2 ≤ (x + y) ^ 2 + (x - y) ^ 2 := by sorry
-    _ = 2 * (x ^ 2 + y ^ 2) := by sorry
-    _ ≤ 2 * 1 := by sorry
-    _ < 3 := by sorry
+    (x + y) ^ 2 ≤ (x + y) ^ 2 + (x - y) ^ 2 := by extra
+    _ = 2 * (x ^ 2 + y ^ 2) := by ring
+    _ ≤ 2 * 1 := by rel [h]
+    _ < 3 := by numbers
   done
+
 
 -- Example 1.4.9
 -- Exercice : remplacez les mots `sorry` par une tactique en Lean.
--- calc blocks - on laisse comme ca au debut de la fiche ?
-example {a b : ℚ} (h1 : a ≥ 0) (h2 : b ≥ 0) (h3 : a + b ≤ 8) : 3 * a * b + a ≤ 7 * b + 72 := by
+-- preuve à trous  - interessant car ca fait reflechir
+-- lire le syntaxe sans ecrire est un autre registre
+example {a b : ℚ} (h1 : a ≥ 0) (h2 : b ≥ 0) (h3 : a + b ≤ 8) :
+  3 * a * b + a ≤ 7 * b + 72 := by
   calc
     3 * a * b + a
-      ≤ 2 * b ^ 2 + a ^ 2 + (3 * a * b + a) := by sorry
-    _ = 2 * ((a + b) * b) + (a + b) * a + a := by sorry
-    _ ≤ 2 * (8 * b) + 8 * a + a := by sorry
-    _ = 7 * b + 9 * (a + b) := by sorry
-    _ ≤ 7 * b + 9 * 8 := by sorry
-    _ = 7 * b + 72 := by sorry
+      ≤ 2 * b ^ 2 + a ^ 2 + (3 * a * b + a) := by extra
+    _ = 2 * ((a + b) * b) + (a + b) * a + a := by ring
+    _ ≤ 2 * (8 * b) + 8 * a + a := by rel [h3]
+    _ = 7 * b + 9 * (a + b) := by ring
+    _ ≤ 7 * b + 9 * 8 := by rel [h3]
+    _ = 7 * b + 72 := by ring
   done
+
 
 -- Example 1.4.10
 example {a b c : ℝ} :
