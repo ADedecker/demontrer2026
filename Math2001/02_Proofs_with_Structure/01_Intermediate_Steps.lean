@@ -4,7 +4,8 @@ import Library.Basic
 
 math2001_init
 
-
+-- pour expliquer have
+-- on peut juste le mettre comme revision
 example {a b : ℝ} (h1 : a - 5 * b = 4) (h2 : b + 2 = 3) : a = 9 := by
   have hb : b = 1 := by addarith [h2]
   calc
@@ -13,7 +14,7 @@ example {a b : ℝ} (h1 : a - 5 * b = 4) (h2 : b + 2 = 3) : a = 9 := by
     _ = 9 := by ring
   done
 
-
+-- meme chose, on peut juste le mettre comme revision
 example {m n : ℤ} (h1 : m + 3 ≤ 2 * n - 1) (h2 : n ≤ 5) : m ≤ 6 := by
   have h3 : m + 3 ≤ 9 := by
     calc
@@ -24,7 +25,7 @@ example {m n : ℤ} (h1 : m + 3 ≤ 2 * n - 1) (h2 : n ≤ 5) : m ≤ 6 := by
   addarith [h3]
   done
 
-
+-- on peut juste le mettre comme revision
 example {r s : ℚ} (h1 : s + 3 ≥ r) (h2 : s + r ≤ 3) : r ≤ 3 := by
   have h3 : r ≤ 3 + s := by sorry -- justify with one tactic
   have h4 : r ≤ 3 - s := by sorry -- justify with one tactic
@@ -34,6 +35,7 @@ example {r s : ℚ} (h1 : s + 3 ≥ r) (h2 : s + r ≤ 3) : r ≤ 3 := by
     _ = 3 := by sorry -- justify with one tactic
   done
 
+-- on peut juste le mettre comme revision
 example {t : ℝ} (h1 : t ^ 2 = 3 * t) (h2 : t ≥ 1) : t ≥ 2 := by
   have h3 : t * t = 3 * t := by
     calc t * t = t ^ 2 := by ring
@@ -55,8 +57,18 @@ example {a b : ℝ} (h1 : a ^ 2 = b ^ 2 + 1) (h2 : a ≥ 0) : a ≥ 1 := by
   done
 
 
+-- chiant avec l histoire des signes
+--
 example {x y : ℤ} (hx : x + 3 ≤ 2) (hy : y + 2 * x ≥ 3) : y > 3 := by
-  sorry
+  have h1 : x ≤ -1 := by addarith [hx]
+  have h2 : - 2*x ≥ 2 := by
+    calc - 2 * x ≥ - 2 * (-1) := by rel [h1]
+              _  = 2 := by numbers
+  have h3 : y ≥ 3 - 2*x := by addarith [hy]
+  calc y ≥ 3 - 2*x := by rel [h3]
+      _  = 3 + (-2 * x) := by ring
+      _  ≥ 3 + 2 := by rel [h2]
+      _  > 3 := by numbers
   done
 
 example (a b : ℝ) (h1 : -b ≤ a) (h2 : a ≤ b) : a ^ 2 ≤ b ^ 2 := by
