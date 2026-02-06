@@ -12,6 +12,7 @@ math2001_init
 -- lemma le_antisymm {a b : ℝ} (h1 : a ≤ b) (h2 : b ≤ a) : a = b
 
 
+-- comment on introduit/explique apply ?
 example {x : ℚ} (hx : 3 * x = 2) : x ≠ 1 := by
   apply ne_of_lt
   calc
@@ -24,14 +25,30 @@ example {y : ℝ} : y ^ 2 + 1 ≠ 0 := by
   sorry
   done
 
-example {a b : ℝ} (h1 : a ^ 2 + b ^ 2 = 0) : a ^ 2 = 0 := by
-  apply le_antisymm
-  calc
-    a ^ 2 ≤ a ^ 2 + b ^ 2 := by extra
-    _ = 0 := h1
-  extra
+example {t : ℝ} : t ^ 2 + 2 ≠ -(1/4) := by
+  sorry
   done
 
+example {x : ℝ} (hx : 4 * x + 2 = 1): x ≠ 0 := by
+  sorry
+  done
+
+
+-- changer le nom des variables ?
+-- ici on a deux sous preuve - on doit montrer indentation · etc
+example {a b : ℝ} (h1 : a ^ 2 + b ^ 2 = 0) : a ^ 2 = 0 := by
+  apply le_antisymm
+  · calc
+      a ^ 2 ≤ a ^ 2 + b ^ 2 := by extra
+      _ = 0 := h1
+  · extra
+  done
+
+
+-- trouver un autre exemple pour se pratiquer
+example {x y : ℝ} (h1 : 2*x ≤ 2) (h2 : -3*x ≤ -3) : x = 1 := by
+  sorry
+  done
 
 /-! # Exercises -/
 
