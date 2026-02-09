@@ -22,41 +22,67 @@ example {x : ℚ} (hx : 3 * x = 2) : x ≠ 1 := by
   done
 
 example {y : ℝ} : y ^ 2 + 1 ≠ 0 := by
-  sorry
+  apply ne_of_gt
+  extra
   done
 
+-- est-ce que le calc marche dans l'autre sens ?
 example {t : ℝ} : t ^ 2 + 2 ≠ -(1/4) := by
-  sorry
+  have ht : t^2 + 2 ≥ 0 := by extra
+  apply ne_of_gt
+  calc -(1/4) < 0 := by numbers
+    _         ≤ t^2 + 2 := by rel [ht]
   done
+
 
 example {x : ℝ} (hx : 4 * x + 2 = 1): x ≠ 0 := by
-  sorry
+  have h : x = -(1/4) := by addarith [hx]
+  apply ne_of_lt
+  rw [h]
+  numbers
   done
 
 
 -- changer le nom des variables ?
 -- ici on a deux sous preuve - on doit montrer indentation · etc
-example {a b : ℝ} (h1 : a ^ 2 + b ^ 2 = 0) : a ^ 2 = 0 := by
+example {x y : ℝ} (h1 : x ^ 2 + y ^ 2 = 0) : x ^ 2 = 0 := by
   apply le_antisymm
   · calc
-      a ^ 2 ≤ a ^ 2 + b ^ 2 := by extra
+      x ^ 2 ≤ x ^ 2 + y ^ 2 := by extra
       _ = 0 := h1
   · extra
   done
 
 
+-- comment on fait ce truc avec le -3 ?
 -- trouver un autre exemple pour se pratiquer
 example {x y : ℝ} (h1 : 2*x ≤ 2) (h2 : -3*x ≤ -3) : x = 1 := by
-  sorry
+  apply le_antisymm
+  · have h3 : 2*x ≤ 2*1 := by addarith [h1]
+    cancel 2 at h3
+  · have h4 : -3*x ≤ -3*1 := by addarith [h2]
+    sorry
   done
+
+
 
 /-! # Exercises -/
 
-
+-- pas besoin de lemme
 example {m : ℤ} (hm : m + 1 = 5) : 3 * m ≠ 6 := by
-  sorry
+  have h : m = 4 := by addarith [hm]
+  rw [h]
+  numbers
   done
 
+
+
 example {s : ℚ} (h1 : 3 * s ≤ -6) (h2 : 2 * s ≥ -4) : s = -2 := by
-  sorry
+  apply le_antisymm
+  · calc s = (3*s)*(1/3) := by ring
+      _    ≤ (-6)*(1/3) := by rel [h1]
+      _    = -2 := by numbers
+  · calc -2 = (-4)/2 := by numbers
+          _ ≤ (2*s)/2 := by rel [h2]
+          _ = s := by ring
   done
