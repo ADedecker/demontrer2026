@@ -84,13 +84,62 @@ example (a b : ℝ) (h : a ≤ b) : a ^ 3 ≤ b ^ 3 := by
 
 
 example {x : ℚ} (h1 : x ^ 2 = 4) (h2 : 1 < x) : x = 2 := by
-  sorry
+  have h3 : x*(x+2)=2*(x+2) := by
+    calc
+      x*(x+2) = x^2+2*x := by ring
+      _ = 4+2*x := by rw [h1]
+      _ = 2*(x+2) := by ring
+    done
+  cancel (x+2) at h3
   done
 
 example {n : ℤ} (hn : n ^ 2 + 4 = 4 * n) : n = 2 := by
-  sorry
+  have h1 : (n-2)^2=0^2 := by
+    calc
+      (n-2)^2 = n^2+4-4*n := by ring
+      _ = 4*n-4*n := by rw [hn]
+      _ = 0^2 := by ring
+    done
+  cancel 2 at h1
+  addarith [h1]
   done
 
 example (x y : ℚ) (h : x * y = 1) (h2 : x ≥ 1) : y ≤ 1 := by
-  sorry
+  have hxy : 0 < x*y := by
+    calc
+      0 < 1 := by numbers
+      _ = x*y := by rw [h]
+    done
+  cancel x at hxy
+  calc
+    y = 1*y := by ring
+    _ ≤ x*y := by rel [h2]
+    _ = 1 := by rw [h]
+  done
+
+
+example {x : ℝ} (h1 : x ^ 2 = 9) (h2 : 1 < x) : x = 3 := by
+  have hh : x^2 ≥ 3^2 := by sorry
+  cancel 2 at hh
+  have hx : (x+3) * (x-3) = (x+3) * 0 := by
+    calc (x+3) * (x-3) = x ^ 2 - 9 := by ring
+      _ = 0 := by addarith [h1]
+      _ = (x+3) * 0 := by ring
+  cancel x+3 at hx
+  addarith [hx]
+  done
+
+example {n : ℤ} (hn : n ^ 2 + 4 = 4 * n) : n = 2 := by
+  have h : (n-2)^2 = 0 := by sorry
+  cancel 2 at h
+  done
+
+example (x y : ℚ) (h : x * y = 1) (h2 : x ≥ 1) : y ≤ 1 := by
+  have hx : x > 0 := by addarith [h2]
+  have hy : x * y ≥ x * 0 := by
+    calc x * y = 1 := by rw [h]
+      _ ≥ 0 := by numbers
+      _ = x * 0 := by ring
+  have hh : x * y ≥ x * 1 := by sorry
+  cancel x at hh
   done
