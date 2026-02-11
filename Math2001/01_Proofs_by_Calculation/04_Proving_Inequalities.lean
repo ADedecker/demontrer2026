@@ -241,3 +241,28 @@ example (a b : ℝ) : a ^ 2 + b ^ 2 ≥ 2 * a * b := by
                       _    ≥ 0 := by extra
   addarith [H]
   done
+
+
+example (a b : ℝ) (h1 : -b ≤ a) (h2 : a ≤ b) : a ^ 2 ≤ b ^ 2 := by
+  have h3 : (b+a) ≥ 0 := by addarith [h1]
+  have h4 : (b-a) ≥ 0 := by addarith [h2]
+  have h5 : (b+a)*(b-a) ≥ 0 := by extra
+  have h6 : b^2 - a^2 ≥ 0 := by
+    calc b^2 - a^2 = (b+a)*(b-a) := by ring
+              _    ≥ 0 := by rel [h5]
+  addarith [h6]
+  done
+
+
+-- b^3 - a^3 = (b-a)*(b^2 + a*b + a^2)
+-- (b + a/2)^2 = b^2 + (2*b*a)/2 + (a^2)/4
+-- b^2 + a*b + a^2 = (b + a/2)^2 + (3*a^2)/4
+example (a b : ℝ) (h : a ≤ b) : a ^ 3 ≤ b ^ 3 := by
+  have h1 : b-a ≥ 0 := by addarith [h]
+  have h2 : b^2 + a*b + a^2 = (b + a/2)^2 + (3* a^2)/4 := by ring
+  have h3 : b^3 - a^3 ≥ 0 := by
+    calc b^3 - a^3 = (b-a)*(b^2 + a*b + a^2) := by ring
+          _        = (b-a)*((b + a/2)^2 + (3* a^2)/4) := by ring
+          _        ≥ 0 := by extra
+  addarith [h3]
+  done
