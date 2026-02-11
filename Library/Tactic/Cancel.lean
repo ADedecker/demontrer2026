@@ -31,12 +31,13 @@ macro_rules
 | `(tactic| cancel_aux $a at $h) =>
   let h := h.raw.getId
   `(tactic
-    | replace $(mkIdent h):ident := (pow_left_inj (n := $a) (by cancel_discharger) (by cancel_discharger) (by cancel_discharger)).mp $(mkIdent h))
+    | replace $(mkIdent h):ident := pow_eq_zero (n := $a) $(mkIdent h))
 macro_rules
 | `(tactic| cancel_aux $a at $h) =>
   let h := h.raw.getId
   `(tactic
-    | replace $(mkIdent h):ident := pow_eq_zero (n := $a) $(mkIdent h))
+    | replace $(mkIdent h):ident := (pow_left_inj (n := $a) (by cancel_discharger) (by cancel_discharger) (by cancel_discharger)).mp $(mkIdent h))
+
 
 /-! ### multiplication, just LHS -/
 macro_rules
