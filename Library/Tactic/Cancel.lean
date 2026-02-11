@@ -4,12 +4,6 @@ import Mathlib.Tactic.Positivity
 
 open Lean
 
-theorem mul_eq_zero_iff_left {α : Type*} [GroupWithZero α] {a b : α} (ha : a ≠ 0) :
-    a * b = 0 ↔ b = 0 := by simp [ha]
-
-theorem mul_eq_zero_iff_right {α : Type*} [GroupWithZero α] {a b : α} (hb : b ≠ 0) :
-    a * b = 0 ↔ a = 0 := by simp [hb]
-
 syntax (name := cancelDischarger) "cancel_discharger " : tactic
 syntax (name := cancelAux) "cancel_aux " term " at " term : tactic
 syntax (name := cancel) "cancel " term " at " term : tactic
@@ -30,14 +24,34 @@ macro_rules
 macro_rules
 | `(tactic| cancel_aux $a at $h) =>
   let h := h.raw.getId
-  `(tactic
-    | replace $(mkIdent h):ident := pow_eq_zero (n := $a) $(mkIdent h))
+  `(tactic | replace $(mkIdent h):ident := pow_eq_zero (n := $a) $(mkIdent h))
+
+
+/-! ### multiplication, LHS and RHS -/
 macro_rules
 | `(tactic| cancel_aux $a at $h) =>
   let h := h.raw.getId
-  `(tactic
-    | replace $(mkIdent h):ident := (pow_left_inj (n := $a) (by cancel_discharger) (by cancel_discharger) (by cancel_discharger)).mp $(mkIdent h))
-
+  `(tactic | replace $(mkIdent h):ident := mul_left_cancel₀ (a := $a) (by cancel_discharger) $(mkIdent h))
+macro_rules
+| `(tactic| cancel_aux $a at $h) =>
+  let h := h.raw.getId
+  `(tactic | replace $(mkIdent h):ident := mul_right_cancel₀ (b := $a) (by cancel_discharger) $(mkIdent h))
+macro_rules
+| `(tactic| cancel_aux $a at $h) =>
+  let h := h.raw.getId
+  `(tactic | replace $(mkIdent h):ident := le_of_mul_le_mul_left (a := $a) $(mkIdent h) (by cancel_discharger))
+macro_rules
+| `(tactic| cancel_aux $a at $h) =>
+  let h := h.raw.getId
+  `(tactic | replace $(mkIdent h):ident := le_of_mul_le_mul_right (a := $a) $(mkIdent h) (by cancel_discharger))
+macro_rules
+| `(tactic| cancel_aux $a at $h) =>
+  let h := h.raw.getId
+  `(tactic | replace $(mkIdent h):ident := lt_of_mul_lt_mul_left (a := $a) $(mkIdent h) (by cancel_discharger))
+macro_rules
+| `(tactic| cancel_aux $a at $h) =>
+  let h := h.raw.getId
+  `(tactic | replace $(mkIdent h):ident := lt_of_mul_lt_mul_right (a := $a) $(mkIdent h) (by cancel_discharger))
 
 /-! ### multiplication, just LHS -/
 macro_rules
@@ -56,48 +70,6 @@ macro_rules
 | `(tactic| cancel_aux $a at $h) =>
   let h := h.raw.getId
   `(tactic | replace $(mkIdent h):ident := nonneg_of_mul_nonneg_left (b := $a) $(mkIdent h) (by cancel_discharger))
-macro_rules
-| `(tactic| cancel_aux $a at $h) =>
-  let h := h.raw.getId
-  `(tactic
-    | replace $(mkIdent h):ident := (mul_eq_zero_iff_left (a := $a) (by cancel_discharger)).mp $(mkIdent h))
-macro_rules
-| `(tactic| cancel_aux $a at $h) =>
-  let h := h.raw.getId
-  `(tactic
-    | replace $(mkIdent h):ident := (mul_eq_zero_iff_right (b := $a) (by cancel_discharger)).mp $(mkIdent h))
-
-/-! ### multiplication, LHS and RHS -/
-macro_rules
-| `(tactic| cancel_aux $a at $h) =>
-  let h := h.raw.getId
-  `(tactic
-    | replace $(mkIdent h):ident := mul_left_cancel₀ (a := $a) (by cancel_discharger) $(mkIdent h))
-macro_rules
-| `(tactic| cancel_aux $a at $h) =>
-  let h := h.raw.getId
-  `(tactic
-    | replace $(mkIdent h):ident := mul_right_cancel₀ (b := $a) (by cancel_discharger) $(mkIdent h))
-macro_rules
-| `(tactic| cancel_aux $a at $h) =>
-   let h := h.raw.getId
-   `(tactic
-    | replace $(mkIdent h):ident := le_of_mul_le_mul_left (a := $a) $(mkIdent h) (by cancel_discharger))
-macro_rules
-| `(tactic| cancel_aux $a at $h) =>
-   let h := h.raw.getId
-   `(tactic
-    | replace $(mkIdent h):ident := lt_of_mul_lt_mul_left (a := $a) $(mkIdent h) (by cancel_discharger))
-macro_rules
-| `(tactic| cancel_aux $a at $h) =>
-   let h := h.raw.getId
-   `(tactic
-    | replace $(mkIdent h):ident := le_of_mul_le_mul_right (a := $a) $(mkIdent h) (by cancel_discharger))
-macro_rules
-| `(tactic| cancel_aux $a at $h) =>
-   let h := h.raw.getId
-   `(tactic
-    | replace $(mkIdent h):ident := lt_of_mul_lt_mul_right (a := $a) $(mkIdent h) (by cancel_discharger))
 
 -- TODO to trigger this needs some `guard_hyp` in the `cancel_aux` implementations
 elab_rules : tactic
