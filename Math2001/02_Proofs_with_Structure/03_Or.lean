@@ -12,8 +12,12 @@ math2001_init
 -- ne_of_lt {a b : ℝ} (h : a < b) : a ≠ b
 -- ne_of_gt {a b : ℝ} (h : a > b) : a ≠ b
 
--- ou à l'hypothese (le plus compliqué c'est ca)
--- nommer les hypothéses generées
+
+------------------------------------------------------------
+-- TYPE 1 OU À L'HYPOTHESE
+-- tactique obtain
+-- (nommer les hypothéses generées)
+
 example {x y : ℝ} (h : x = 1 ∨ y = -1) : x * y + x = y + 1 := by
   obtain hx | hy := h
   · calc
@@ -26,7 +30,18 @@ example {x y : ℝ} (h : x = 1 ∨ y = -1) : x * y + x = y + 1 := by
   done
 
 
--- preuve par cas sur un entier (ou à l'hypothese en utilisant un lemme)
+------------------------------------------------------------
+-- TYPE 4 OU À L'HYPOTHESE (en utilisant un lemme)
+-- preuve par cas sur un entier
+-- le_or_succ_le {n a : ℤ} : n ≤ a ∨ a+1 ≤ n
+
+-- strategie :
+-- (1) on doit trouver le bon a
+-- (2) on utilise le lemme le_or_succ pour créer la bonne hypothese avec OU
+-- (3) on fait la distinction des cas
+-- (4) dans chaque sous-preuve on doit appliquer le bon lemme
+
+
 example {n : ℕ} : n ^ 2 ≠ 2 := by
   have hn := le_or_succ_le n 1
   obtain hn | hn := hn
@@ -38,7 +53,11 @@ example {n : ℕ} : n ^ 2 ≠ 2 := by
   done
 
 
--- ou à la conclusion
+------------------------------------------------------------
+-- TYPE 2 OU À LA CONCLUSION
+-- tactiques right left
+-- (choisir quel coté, on va demontrer)
+
 example {x : ℝ} (hx : 2 * x + 1 = 5) : x = 1 ∨ x = 2 := by
   right
   calc
@@ -47,11 +66,15 @@ example {x : ℝ} (hx : 2 * x + 1 = 5) : x = 1 ∨ x = 2 := by
     _ = 2 := by numbers
   done
 
--- à reecrire de facon plus lisible
+
+
+------------------------------------------------------------
+-- TYPE 3 OU À LA CONCLUSION ET À L'HYPOTHESE
+-- équation deuxieme degré
 -- apply un lemme à une hypothese
--- on peut le faire de la conclusion à la fin, c'est plus simple
+
 example {x : ℝ} (hx : x ^ 2 - 3 * x + 2 = 0) : x = 1 ∨ x = 2 := by
-  have h1 :=
+  have h1 : (x - 1) * (x - 2) = 0 := by
     calc
     (x - 1) * (x - 2) = x ^ 2 - 3 * x + 2 := by ring
     _ = 0 := by rw [hx]
@@ -59,10 +82,15 @@ example {x : ℝ} (hx : x ^ 2 - 3 * x + 2 = 0) : x = 1 ∨ x = 2 := by
   sorry
   done
 
+
+
+------------------------------------------------------------
+-- TYPE 4 COMPLET
 -- à faire tous seuls à la fin ?
 -- mettre à la fin ?
 -- faire au tableau et la montrer en lean ?
 -- à faire la prochaine fois comme révision ?
+
 example {n : ℤ} : n ^ 2 ≠ 2 := by
   have hn0 := le_or_succ_le n 0
   obtain hn0 | hn0 := hn0
@@ -98,12 +126,21 @@ example {n : ℤ} : n ^ 2 ≠ 2 := by
 -- il faut les melanger avec les autres
 -- pour empecher qu'ils copient le code d'avant
 
--- type 1
+-- TYPE 1 :
 -- on a la tendance de vouloir commencer par la conclusion ici
 -- on ne peut pas réecrire la conclusion avec addarith directement
 -- on peut faire une hypothese hh : x^2 - 16 = 0 et apres trouver x
 -- c'est quelquechose qu'on ferait en papier pour comprendre
 -- mais ca ne sert pas à faire passer la preuve formelle en lean
+--
+-- l'enjeu n'est pas le meme quand on fait une preuve formelle
+-- la partie semantique est moins important que la partie syntaxique
+-- ca veut dire que la strategie à employer est plutot de
+-- commencer par quelquepart et proceder de facon que la preuve
+-- soit acceptée par la machine logiquement / syntaxiquement
+
+
+-- TYPE 1
 example {x : ℚ} (h : x = 4 ∨ x = -4) : x ^ 2 + 1 = 17 := by
   obtain h1 | h2 := h
   · rw [h1]
@@ -112,12 +149,7 @@ example {x : ℚ} (h : x = 4 ∨ x = -4) : x ^ 2 + 1 = 17 := by
     numbers
   done
 
--- type 1
--- l'enjeu n'est pas le meme quand on fait une preuve formelle
--- la partie semantique est moins important que la partie syntaxique
--- ca veut dire que la strategie a employée est plutot de
--- commencer par quelquepart et proceder de facon que la preuve
--- soit acceptée par la machine logiquement / syntaxiquement
+-- TYPE 1
 example {x : ℝ} (h : x = 1 ∨ x = 2) : x ^ 2 - 3 * x + 2 = 0 := by
   have hh : x ^ 2 - 3 * x + 2 = (x-1)*(x-2) := by ring
   rw [hh]
@@ -148,10 +180,11 @@ example {x y : ℝ} (h : x = 2 ∨ y = -2) : x * y + 2 * x = 2 * y + 4 := by
     ring
   done
 
+
+
 -------------------------------------------------------
 -- type 2 : OU dans la conclusion
--- simple il faut choisir
--- mais à quel niveau on choisit ?
+-- pratique right left
 
 -- type 2 simple
 example {s t : ℚ} (h : s = 3 - t) : s + t = 3 ∨ s + t = 5 := by
@@ -188,6 +221,7 @@ example {x y : ℝ} (h : y = 2 * x + 1) : x < y / 2 ∨ x > y / 2 := by
 -- (1) il faut créer une hypothese de la bonne forme pour appliquer le lemme
 -- (2) on applique le lemme
 -- (3) on distingue des cas
+
 example {x : ℝ} (hx : x ^ 2 + 2 * x - 3 = 0) : x = -3 ∨ x = 1 := by
   have h1 : x ^ 2 + 2 * x - 3 = (x + 3)*(x-1) := by ring
   have h2 : (x + 3)*(x - 1) = 0 := by
@@ -242,9 +276,9 @@ example {t : ℝ} (ht : t ^ 3 = t ^ 2) : t = 1 ∨ t = 0 := by
 -- ne_of_gt {a b : ℝ} (h : a > b) : a ≠ b
 
 -- strategie :
--- (1) on doit trouver le bon m
+-- (1) on doit trouver le bon a
 -- (2) on utilise le lemme le_or_succ pour créer la bonne hypothese avec OU
--- (3) faire les sous-preuves
+-- (3) on fait la distinction des cas
 -- (4) dans chaque sous-preuve on doit appliquer le bon lemme
 
 -- type 4
