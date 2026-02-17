@@ -84,10 +84,11 @@ example (a b : ℝ) (h : a ≤ b) : a ^ 3 ≤ b ^ 3 := by
 
 
 example {x : ℚ} (h1 : x ^ 2 = 4) (h2 : 1 < x) : x = 2 := by
-  have h3 : (x+2)*(x-2) = 0 := by
+  have h3 : (x+2)*(x-2) = (x+2)*0 := by
     calc
       (x+2)*(x-2) = x^2 - 4 := by ring
       _ = 0 := by addarith [h1]
+      _ = (x+2)*0 := by ring
     done
   cancel (x+2) at h3
   addarith [h3]

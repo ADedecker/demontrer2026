@@ -43,7 +43,8 @@ example {x y : ℝ} (h : x = 1 ∨ y = -1) : x * y + x = y + 1 := by
 
 
 example {n : ℕ} : n ^ 2 ≠ 2 := by
-  have hn := le_or_succ_le n 1
+  have hn : n ≤ 1 ∨ 2 ≤ n := by
+    apply le_or_succ_le n 1
   obtain hn | hn := hn
   · apply ne_of_lt
     calc
@@ -210,7 +211,7 @@ example {x y : ℝ} (h : y = 2 * x + 1) : x < y / 2 ∨ x > y / 2 := by
   left
   rw [hx]
   calc y/2 - 1/2 =  y/2 + (-(1/2)) := by ring
-            _    <  y/2 + 0 := by sorry
+            _    <  y/2 + (-(1/2)) + 1/2 := by extra
             _    =  y/2 := by ring
   done
 
@@ -252,6 +253,7 @@ example {a b : ℝ} (hab : a ^ 2 + 2 * b ^ 2 = 3 * a * b) :
     addarith [h3]
   done
 
+-- pow_eq_zero {x : ℝ} {n : ℕ} (H : x ^ n = 0) : x = 0
 
 -- type 3 par rapport à la strategie
 --  on utilise cancel pour le carré
