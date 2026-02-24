@@ -139,21 +139,35 @@ example {x y : ℚ} (h : x + y = 5 ∧ x + 2 * y = 7) : x = 3 ∧ y = 2 := by
 
 
 
+-- lemma eq_or_ne (x y : ℝ) : x = y ∨ x ≠ y
+
 example {a b : ℝ} (h1 : a * b = a) (h2 : a * b = b) :
     (a = 0 ∧ b = 0) ∨ (a = 1 ∧ b = 1) := by
-
-    by_cases H : a = 0
-    left
-    · sorry
-    right
-    have ha: b = 1 := by
-      calc b = (a*b)/a := by ring
-        _ = a/a := by rw [h1]
-        _ = 1 := by ring
+  have h : a = 0 ∨ a ≠ 0 := eq_or_ne a 0
+  obtain H | H := h
+  · left
+    constructor
+    · apply H
+    · calc
+        b = a * b := by rw [h2]
+        _ = a := by rw [h1]
+        _ = 0 := by rw [H]
+  · right
+    have ha : a * b = a * 1 := by
+      calc
+        a*b = a := by rw [h1]
+        _ = a*1 := by ring
+    cancel a at ha
+    constructor
+    · calc
+        a = a * b := by rw [h1]
+        _ = b := by rw [h2]
+        _ = 1 := by rw [ha]
+    · apply ha
   done
 
 --- Rajoutés :
-
+---------------- un peu de logique pour s'entrainer
 example {p q : Prop} (h : p ∧ q) : p ∨ q := by
   sorry
   done
