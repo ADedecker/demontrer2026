@@ -128,3 +128,37 @@ example {a b : ℝ} (h1 : a * b = a) (h2 : a * b = b) :
     (a = 0 ∧ b = 0) ∨ (a = 1 ∧ b = 1) := by
   sorry
   done
+
+--- Rajoutés :
+
+example {p q : Prop} (h : p ∧ q) : p ∨ q := by
+  sorry
+  done
+
+example {p q r : Prop} (h : (p ∧ q) ∨ r) : (p ∨ r) ∧ (q ∨ r) := by
+  obtain hpq | hr := h
+  · constructor
+    · left
+      apply hpq.1
+    · left
+      apply hpq.2
+  · constructor
+    · right
+      apply hr
+    · right
+      apply hr
+  done
+
+example {p q r : Prop} (h : (p ∨ r) ∧ (q ∨ r)) : (p ∧ q) ∨ r := by
+  obtain ⟨hpr, hqr⟩ := h
+  obtain hp | hr := hpr
+  · obtain hq | hr := hqr
+    · left
+      constructor
+      · apply hp
+      · apply hq
+    · right
+      apply hr
+  · right
+    apply hr
+  done
