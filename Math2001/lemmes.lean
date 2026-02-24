@@ -6,9 +6,10 @@
 
 `lemma le_antisymm {a b : ℝ} (h1 : a ≤ b) (h2 : b ≤ a) : a = b`
 
-`lemma le_or_succ_le {n a : ℤ} : n ≤ a ∨ a+1 ≤ n`
+`lemma Nat.le_or_succ_le (n a : ℕ) : n ≤ a ∨ a+1 ≤ n`
+`lemma Int.le_or_succ_le (n a : ℤ) : n ≤ a ∨ a+1 ≤ n`
 
-`lemma eq_zero_or_eq_zero_of_mul_eq_zero {a b : ℝ}  (h : a * b = 0) : a = 0 ∨ b = 0`
+`lemma eq_zero_or_eq_zero_of_mul_eq_zero {a b : ℝ} (h : a * b = 0) : a = 0 ∨ b = 0`
 
 `lemma ne_of_lt {a b : ℝ} (h : a < b) : a ≠ b`
 
