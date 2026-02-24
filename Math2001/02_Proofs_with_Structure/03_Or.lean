@@ -329,5 +329,11 @@ example {t : ℤ} : 5 * t ≠ 18 := by
 -- type 4
 -- have to find the right number for the lemma le_or_succ_le
 example {m : ℕ} : m ^ 2 + 4 * m ≠ 46 := by
+  have hm := le_or_succ_le m 5
+  obtain h1 | h2 := hm
+  · apply ne_of_lt
+    sorry
+  · apply ne_of_gt
+    sorry
   sorry
   done

@@ -120,11 +120,34 @@ example {a : ℚ} (h : a - 1 ≥ 5) : a ≥ 6 ∧ 3 * a ≥ 10 := by
   done
 
 
+-- IMPORTANT : ORGANISATION DE LA PREUVE (STRUCTURE)
+-- ici il faut faire x = 3 avant de casser le ET
 example {x y : ℚ} (h : x + y = 5 ∧ x + 2 * y = 7) : x = 3 ∧ y = 2 := by
-  sorry
+  obtain ⟨h1,h2⟩ := h
+  have hy : y = 5-x := by addarith[h1]
+  rw [hy] at h2
+  have hh : 10-x = 7 := by
+      calc 10 - x = x + 2 * (5 - x) := by ring
+          _ = 7 := by rw [h2]
+  constructor
+  · addarith [hh]
+  · have hhh : x = 3 := by addarith [hh]
+    rw [hy]
+    rw [hhh]
+    numbers
   done
+
+
 
 example {a b : ℝ} (h1 : a * b = a) (h2 : a * b = b) :
     (a = 0 ∧ b = 0) ∨ (a = 1 ∧ b = 1) := by
-  sorry
+
+    by_cases H : a = 0
+    left
+    · sorry
+    right
+    have ha: b = 1 := by
+      calc b = (a*b)/a := by ring
+        _ = a/a := by rw [h1]
+        _ = 1 := by ring
   done
