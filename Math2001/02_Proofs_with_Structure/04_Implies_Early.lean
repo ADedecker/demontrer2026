@@ -4,6 +4,7 @@ import Library.Basic
 
 math2001_init
 
+-- utiliser une hypothese
 example {x : ℝ} (h : x < 0 → x = -1) (h2 : 2 * x + 1 ≤ 0) :
     x = -1 := by
   apply h
@@ -14,6 +15,7 @@ example {x : ℝ} (h : x < 0 → x = -1) (h2 : 2 * x + 1 ≤ 0) :
     _ < 0 := by numbers
   done
 
+-- introduire une hypothese
 example {x : ℝ} (h : x < 0 → x = -1) :
     2 * x + 1 ≤ 0 → x = -1 := by
   intro h2
@@ -27,7 +29,7 @@ example {x : ℝ} (h : x < 0 → x = -1) :
 
 -- `lemma lt_trichotomy (x y : ℝ) : x < y ∨ x = y ∨ x > y`
 
-example {x : ℝ} (h : x < 0 → x = -1) :
-    x ≥ -1 := by
+-- c'est quoi l'idée ?
+example {x : ℝ} (h : x < 0 → x = -1) : x ≥ -1 := by
   sorry
   done
