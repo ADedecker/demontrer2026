@@ -143,13 +143,7 @@ example (x : ℚ) : ∃ y : ℚ, y ^ 2 > x := by
   done
 
 
--- obtain
--- la plus difficile au niveau des strategies
--- disjonction des cas
-example {t : ℝ} (h : ∃ a : ℝ, a * t + 1 < a + t) : t ≠ 1 := by
-  obtain ⟨ x, hx ⟩ := h
-  sorry
-  done
+
 
 
 
@@ -174,17 +168,7 @@ example {m : ℤ} (h : ∃ a, 2 * a = m) : m ≠ 5 := by
 
 
 
--- use difficile
--- calc tres penibles
--- je doute sur l'utilité de l'exrcice
-example {n : ℤ} : ∃ a, 2 * a ^ 3 ≥ n * a + 7 := by
-  have h : n ≤ 0 ∨ n > 0 := by apply le_or_gt
-  obtain h | h := h
-  · use 2
-    sorry
-  · use n+1
-    sorry
-  done
+
 
 
 -- use
@@ -192,4 +176,116 @@ example {n : ℤ} : ∃ a, 2 * a ^ 3 ≥ n * a + 7 := by
 example {a b c : ℝ} (ha : a ≤ b + c) (hb : b ≤ a + c) (hc : c ≤ a + b) :
     ∃ x y z, x ≥ 0 ∧ y ≥ 0 ∧ z ≥ 0 ∧ a = y + z ∧ b = x + z ∧ c = x + y := by
   sorry
+  done
+
+
+
+-- section exists
+
+example : Odd (-9 : ℤ) := by
+  dsimp [Odd]
+  use (-5)
+  numbers
+  done
+
+example : Even (26 : ℤ) := by
+  dsimp [Even]
+  use 13
+  numbers
+  done
+
+example {n : ℤ} (hn : Odd n) : Odd (7 * n - 4) := by
+  dsimp [Odd]
+  dsimp [Odd] at hn
+  obtain ⟨k,hn⟩ := hn
+  use 7*k+1
+  rw [hn]
+  ring
+  done
+
+example {m : ℤ} (hm : Odd m) : Even (3 * m - 5) := by
+  dsimp [Odd] at hm
+  dsimp [Even]
+  obtain ⟨k,hm⟩ := hm
+  use 3*k-1
+  rw [hm]
+  ring
+  done
+
+example {m n : ℤ} (hm : Odd m) (hn : Even n) : Odd (n + m) := by
+  dsimp [Odd] at hm
+  obtain ⟨k,hm⟩ := hm
+  dsimp [Even] at hn
+  obtain ⟨r,hn⟩ := hn
+  dsimp [Odd]
+  rw [hn, hm]
+  use r + k
+  ring
+  done
+
+example {p q : ℤ} (hp : Odd p) (hq : Even q) : Odd (p - q - 4) := by
+  dsimp [Odd]
+  dsimp [Odd] at hp
+  obtain ⟨r,hp⟩ := hp
+  dsimp [Even] at hq
+  obtain ⟨k,hq⟩ := hq
+  rw [hp, hq]
+  use r-k-2
+  ring
+  done
+
+example {a b : ℤ} (ha : Even a) (hb : Odd b) : Even (3 * a + b - 3) := by
+  dsimp [Odd] at hb
+  obtain ⟨r,hb⟩ := hb
+  dsimp [Even] at ha
+  obtain ⟨k,ha⟩ := ha
+  dsimp [Even]
+  rw [ha, hb]
+  use 3*k+r-1
+  ring
+  done
+
+example {r s : ℤ} (hr : Odd r) (hs : Odd s) : Even (3 * r - 5 * s) := by
+  dsimp [Odd] at hr
+  obtain ⟨b,hr⟩ := hr
+  dsimp [Odd] at hs
+  obtain ⟨a,hs⟩ := hs
+  dsimp [Even]
+  rw [hr,hs]
+  use 3*b - 5*a - 1
+  ring
+  done
+
+example {x y : ℤ} (hx : Odd x) (hy : Odd y) : Odd (x * y) := by
+  dsimp [Odd] at *
+  obtain ⟨b,hx⟩ := hx
+  obtain ⟨a,hy⟩ := hy
+  rw [hx, hy]
+  use 2*a*b + a + b
+  ring
+  done
+
+example {x : ℤ} (hx : Odd x) : Odd (x ^ 3) := by
+  dsimp [Odd] at *
+  obtain ⟨k,hx⟩ := hx
+  use 4*k^3 + 6*k^2 +3*k
+  rw [hx]
+  ring
+  done
+
+example {n : ℤ} (hn : Odd n) : Even (n ^ 2 - 3 * n + 2) := by
+  dsimp [Even]
+  dsimp [Odd] at hn
+  obtain ⟨k,hn⟩ := hn
+  rw [hn]
+  use 2*k^2-k
+  ring
+  done
+
+example {a : ℤ} (ha : Odd a) : Odd (a ^ 2 + 2 * a - 4) := by
+  dsimp [Odd] at *
+  obtain ⟨k,ha⟩ := ha
+  rw [ha]
+  use 2*k^2+4*k-1
+  ring
   done
