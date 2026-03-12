@@ -18,6 +18,10 @@ example {a : ℚ} : 3 * a + 1 ≤ 7 ↔ a ≤ 2 := by
       _ = 7 := by numbers
   done
 
+
+
+-- equations et inequations - interessant ok
+
 example {x : ℝ} : x ^ 2 + x - 6 = 0 ↔ x = -3 ∨ x = 2 := by
   sorry
   done
