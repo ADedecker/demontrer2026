@@ -121,7 +121,10 @@ example : ∃ a : ℝ, ∀ b : ℝ, ∃ c : ℝ, a + b < c := by
 -- k = 7
 -- l'exercice st nul
 example : ∃ (k : ℝ), ∀ x ≥ k, x ^ 3 + 3 * x ≥ 7 * x ^ 2 + 12 := by
-  sorry
+  use 7
+  intro x hx
+  
+
   done
 
 
