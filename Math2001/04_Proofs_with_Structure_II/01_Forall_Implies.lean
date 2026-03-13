@@ -127,5 +127,21 @@ example : ∃ (k : ℝ), ∀ x ≥ k, x ^ 3 + 3 * x ≥ 7 * x ^ 2 + 12 := by
 
   done
 
+--example : ∀ n : ℤ, (∀ m : ℤ, Even m → Even (n + m)) → Even n := by
+--  intro n
+--  intro H
+--  have : Even (n + 0) := by
+--    apply H
+--
+--  done
+
+
+-- example {a b : ℝ} (ha1 : a ^ 2 ≤ 2) (hb1 : b ^ 2 ≤ 2) (ha2 : ∀ y, y ^ 2 ≤ 2 → y ≤ a)
+--     (hb2 : ∀ y, y ^ 2 ≤ 2 → y ≤ b) : a = b := by
+--   apply le_antisymm
+--   · apply hb2
+--     apply ha1
+--   · sorry
+--   done
 
 -- il faut mettre des autres exos pour se pratiquer concernant les tactiques
