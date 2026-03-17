@@ -54,18 +54,97 @@ example : ∃ (k : ℤ), ∀ n ≥ k, n ^ 3 ≥ 4 * n ^ 2 + 7 := by
 /-! # Exercises -/
 
 
-example {a : ℚ} (h : ∀ b : ℚ, a ≥ -3 + 4 * b - b ^ 2) : a ≥ 1 := by
-  sorry
+example {a : ℝ} (h : ∀ x, a ≤ x ^ 2 - 2 * x) : a ≤ -1 := by
+  have hh : a ≤ 1^2 - 2*1 := by apply h
+  calc a ≤ 1^2 - 2*1 := by apply h
+      _  = -1 := by numbers
+  done
+
+example : ∃ b : ℝ, ∀ x : ℝ, b ≤ x ^ 2 - 2 * x := by
+  use -1
+  intro x
+  have h : x^2 - 2*x + 1 ≥ 0 := by
+    calc x^2 - 2*x + 1 = (x-1)^2 := by ring
+      _ ≥ 0 := by extra
+  addarith [h]
   done
 
 example : ∃ n : ℕ, ∀ m : ℕ, n ≤ m := by
-  sorry
+  use 0
+  intro m
+  extra
+  done
+
+example : ∀ n m : ℤ, Even n → Even (n * m) := by
+  intro n m even_n
+  dsimp [Even] at even_n
+  dsimp [Even]
+  obtain ⟨ k, hn ⟩ := even_n
+  use k*m
+  rw [hn]
+  ring
+  done
+
+example : ∀ n m : ℤ, Even n → Odd m → Odd (n + m) := by
+  intro n m even_n odd_m
+  dsimp [Even] at even_n
+  obtain ⟨ k,hn ⟩ := even_n
+  dsimp [Odd] at odd_m
+  obtain ⟨ r, hm ⟩ := odd_m
+  dsimp [Odd]
+  use k+r
+  rw [hn, hm]
+  ring
+  done
+
+example {a b : ℝ} (h : ∀ x, x ≤ a → x ≤ b) : a ≤ b := by
+  apply (h a)
+  extra
   done
 
 example : ∃ a : ℝ, ∀ b : ℝ, ∃ c : ℝ, a + b < c := by
+  use 0
+  intro x
+  use x+2
+  calc 0+x = x := by ring
+    _      < x + 2 := by extra
+  done
+
+example : ∀ x y : ℝ, x + 4 = y + 4 → x = y := by
+  intro x y h
+  addarith [h]
+  done
+
+example : ∀ x y : ℚ, 2 * x - 35 = 2 * y - 35 → x = y := by
+  intro x y h
+  have hh : 2*x = 2*y := by addarith [h]
+  calc x = (2*x)/2 := by ring
+    _    = (2*y)/2 := by rw [hh]
+    _    = y := by ring
+  done
+
+example : ∀ x : ℚ, ∃ y : ℚ, x = (-3) * y := by
+  intro z
+  use z/(-3)
+  ring
+  done
+
+/-
+Les exercices suivants sont plus difficiles, allez d'abord faire la feuille 12
+-/
+
+example {a b : ℝ} (h : ∀ x, x ≥ a ∨ x ≤ b) : a ≤ b := by
+  sorry
+  done
+
+example : ∃ (k : ℤ), ∀ n ≥ k, n ^ 3 ≥ 4 * n ^ 2 + 7 := by
   sorry
   done
 
 example : ∃ (k : ℝ), ∀ x ≥ k, x ^ 3 + 3 * x ≥ 7 * x ^ 2 + 12 := by
+  sorry
+  done
+
+example : ∃ c : ℝ, ∀ x y, x ^ 2 + y ^ 2 ≤ 4 → x + y ≥ c := by
   sorry
   done
