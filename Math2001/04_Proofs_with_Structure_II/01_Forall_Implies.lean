@@ -6,13 +6,16 @@ math2001_init
 
 -- lemma abs_le_of_sq_le_sq' {a b : ℝ} (h1 : a ^ 2 ≤ b ^ 2) (h2 : 0 ≤ b) : -b ≤ a ∧ a ≤ b
 
+-- utiliser un pourtout - tactique apply
 example {a : ℝ} (h : ∀ x, a ≤ x ^ 2 - 2 * x) : a ≤ -1 := by
-  calc
-    a ≤ 1 ^ 2 - 2 * 1 := by apply h
+  have ha : a ≤ 1 ^ 2 - 2 * 1 := by apply h
+  calc a ≤ 1 ^ 2 - 2 * 1 := by rel [ha]
     _ = -1 := by numbers
   done
 
 
+-- compliqué à expliquer
+-- peut etre utiliser un exemple plus simple avec juste une implication ?
 example {a b : ℝ} (ha1 : a ^ 2 ≤ 2) (hb1 : b ^ 2 ≤ 2) (ha2 : ∀ y, y ^ 2 ≤ 2 → y ≤ a)
     (hb2 : ∀ y, y ^ 2 ≤ 2 → y ≤ b) : a = b := by
   apply le_antisymm
@@ -21,6 +24,8 @@ example {a b : ℝ} (ha1 : a ^ 2 ≤ 2) (hb1 : b ^ 2 ≤ 2) (ha2 : ∀ y, y ^ 2 
   · sorry
   done
 
+
+-- introduire un pourtout - tactique intro
 example : ∃ b : ℝ, ∀ x : ℝ, b ≤ x ^ 2 - 2 * x := by
   use -1
   intro x
@@ -29,16 +34,43 @@ example : ∃ b : ℝ, ∀ x : ℝ, b ≤ x ^ 2 - 2 * x := by
     _ = x ^ 2 - 2 * x := by ring
   done
 
+
+-- exercice use / intro / intro / intro
+-- difficile si tu n'as pas l'idée
+-- solution de 2025
+-- apply (by numbers)
 example : ∃ c : ℝ, ∀ x y, x ^ 2 + y ^ 2 ≤ 4 → x + y ≥ c := by
-  sorry
+  use -3
+  intro x y h
+  have hxy : (x+y)^2 ≤ 3^2 := by
+    calc
+      (x+y)^2 ≤ (x+y)^2 + (x-y)^2  := by extra
+      _ = 2*(x^2+y^2) := by ring
+      _ ≤ 2*4 := by rel [h]
+      _ ≤ 3^2 := by numbers
+  have H := abs_le_of_sq_le_sq' hxy (by numbers)
+  obtain ⟨H1, H2⟩ := H
+  addarith [H1]
   done
 
 
+-- obtain avec pourtout - il faut montrer le syntaxe
+-- difficile si tu n'as pas l'idée
 example {a b : ℝ} (h : ∀ x, x ≥ a ∨ x ≤ b) : a ≤ b := by
-  sorry
+  obtain h1 | h2 := h ((a+b)/2)
+  · calc
+      a = 2*a-a := by ring
+      _ ≤ 2*((a+b)/2)-a := by rel [h1]
+      _ = b := by ring
+  · calc
+      a = 2*((a+b)/2)-b := by ring
+      _ ≤ 2*b-b := by rel [h2]
+      _ = b := by ring
   done
 
 
+
+--
 example : ∃ (k : ℤ), ∀ n ≥ k, n ^ 3 ≥ 4 * n ^ 2 + 7 := by
   use 5
   intro n hn
@@ -50,6 +82,8 @@ example : ∃ (k : ℤ), ∀ n ≥ k, n ^ 3 ≥ 4 * n ^ 2 + 7 := by
     _ = 4 * n ^ 2 + 7 + 18 := by ring
     _ ≥ 4 * n ^ 2 + 7 := by extra
   done
+
+
 
 /-! # Exercises -/
 
@@ -69,6 +103,9 @@ example : ∃ b : ℝ, ∀ x : ℝ, b ≤ x ^ 2 - 2 * x := by
   addarith [h]
   done
 
+
+-- tactique intro
+-- comment on fait ca ?
 example : ∃ n : ℕ, ∀ m : ℕ, n ≤ m := by
   use 0
   intro m
@@ -102,6 +139,9 @@ example {a b : ℝ} (h : ∀ x, x ≤ a → x ≤ b) : a ≤ b := by
   extra
   done
 
+
+-- tactique intro
+-- nice exercice mais calc schiant
 example : ∃ a : ℝ, ∀ b : ℝ, ∃ c : ℝ, a + b < c := by
   use 0
   intro x
@@ -141,10 +181,38 @@ example : ∃ (k : ℤ), ∀ n ≥ k, n ^ 3 ≥ 4 * n ^ 2 + 7 := by
   sorry
   done
 
+
+-- use
+-- intro
+-- c'est quoi cet exercice avec cette fonction ? difficulté sans raison
+-- k = 7
+-- l'exercice st nul
 example : ∃ (k : ℝ), ∀ x ≥ k, x ^ 3 + 3 * x ≥ 7 * x ^ 2 + 12 := by
-  sorry
+  use 7
+  intro x hx
+
+
   done
 
 example : ∃ c : ℝ, ∀ x y, x ^ 2 + y ^ 2 ≤ 4 → x + y ≥ c := by
   sorry
   done
+
+--example : ∀ n : ℤ, (∀ m : ℤ, Even m → Even (n + m)) → Even n := by
+--  intro n
+--  intro H
+--  have : Even (n + 0) := by
+--    apply H
+--
+--  done
+
+
+-- example {a b : ℝ} (ha1 : a ^ 2 ≤ 2) (hb1 : b ^ 2 ≤ 2) (ha2 : ∀ y, y ^ 2 ≤ 2 → y ≤ a)
+--     (hb2 : ∀ y, y ^ 2 ≤ 2 → y ≤ b) : a = b := by
+--   apply le_antisymm
+--   · apply hb2
+--     apply ha1
+--   · sorry
+--   done
+
+-- il faut mettre des autres exos pour se pratiquer concernant les tactiques

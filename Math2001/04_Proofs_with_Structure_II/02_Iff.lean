@@ -27,6 +27,12 @@ example {x : ℝ} : 2 * x - 1 = 11 ↔ x = 6 := by
   · intro h
     rw [h]
     numbers
+
+
+-- equations et inequations - interessant ok
+
+example {x : ℝ} : x ^ 2 + x - 6 = 0 ↔ x = -3 ∨ x = 2 := by
+  sorry
   done
 
 example {x : ℝ} : 5 * x + 22 = 12 ↔ x = -2 := by
