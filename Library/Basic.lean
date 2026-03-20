@@ -29,6 +29,8 @@ macro "polyrith" : tactic => `(tactic | fail "polyrith tactic disabled")
 macro "decide" : tactic => `(tactic | fail "decide tactic disabled")
 macro "aesop" : tactic => `(tactic | fail "aesop tactic disabled")
 macro "tauto" : tactic => `(tactic | fail "tauto tactic disabled")
+macro "trivial" : tactic => `(tactic | fail "trivial tactic disabled")
+macro "by_contra" : tactic => `(tactic | fail "Use by_contra' instead")
 
 open Lean.Parser.Tactic in
 macro "simp"  (&" only")?  (" [" withoutPosition((simpStar <|> simpErase <|> simpLemma),*) "]")?
