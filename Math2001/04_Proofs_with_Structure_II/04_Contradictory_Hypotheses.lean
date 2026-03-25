@@ -62,8 +62,23 @@ example {a b c : ℕ} (ha : 0 < a) (hb : 0 < b) (hc : 0 < c) (h : a ^ 2 + b ^ 2 
 /-! # Exercises -/
 
 
+
+example {t : ℤ} (h2 : t < 3) (h : t - 1 = 6) : t = 13 := by
+  have ht : t = 7 := by addarith [h]
+  have hh : ¬ (t = 7) := by
+    apply ne_of_lt
+    calc t < 3 := by rel [h2]
+      _    < 7 := by numbers
+  contradiction
+  done
+
+
 example {x y : ℝ} (n : ℕ) (hx : 0 ≤ x) (hn : 0 < n) (h : y ^ n ≤ x ^ n) : y ≤ x := by
-  sorry
+  obtain h1 | h2 : y ≤ x ∨ x < y := le_or_lt y x
+  · assumption
+  · have H : x^n < y^n := by rel [h2]
+    have HH : ¬ (x^n < y^n) := by apply not_lt_of_ge h
+    contradiction
   done
 
 
@@ -73,5 +88,9 @@ example {x : ℚ} (h1 : x ^ 2 = 4) (h2 : 1 < x) : x = 2 := by
       (x + 2) * (x - 2) = x ^ 2 + 2 * x - 2 * x - 4 := by ring
       _ = 0 := by addarith [h1]
   rw [mul_eq_zero] at h3
-  sorry
+  obtain h3 | h3 := h3
+  · have hx : x = -2 := by addarith [h3]
+    rw [hx] at h2
+    numbers at h2
+  · addarith [h3]
   done
