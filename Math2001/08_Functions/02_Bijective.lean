@@ -4,9 +4,16 @@ import Library.Basic
 
 math2001_init
 
-open Function
+/-!
+# Fonctions Bijectives
 
--- `rfl` prouve que `a=a`
+def Bijective (f : X → Y) :=
+  Injective f ∧ Surjective f
+
+La tactique `rfl` prouve que `a = a`
+-/
+
+open Function
 
 def p (x : ℝ) : ℝ := 2 * x - 5
 
@@ -77,27 +84,7 @@ example {X Y : Type} {f : X → Y} : Bijective f ↔ ∀ y, ∃! x, f x = y := b
       apply hx
   done
 
-example : ¬ ∀ f : ℕ → ℕ, Injective f → Bijective f := by
-  push_neg
-  use fun n ↦ n + 1
-  constructor
-  · -- the function is injective
-    intro n1 n2 hn
-    addarith [hn]
-  · -- the function is not bijective
-    dsimp [Bijective]
-    push_neg
-    right
-    -- specifically, it's not surjective
-    dsimp [Surjective]
-    push_neg
-    use 0
-    intro n
-    apply ne_of_gt
-    extra
-  done
-
-/-! # Exercises -/
+/-! # Exercices -/
 
 /-- Il y a des paires d'énoncés du type `example : 1 + 1 = 2` et `example : ¬(1 + 1 = 2)`.
 Bien évidemment un est vrai et l'autre est faux. À vous de trouver lequel est faisable. -/
@@ -111,3 +98,9 @@ example : Bijective (fun (x : ℝ) ↦ x ^ 2 + 2 * x) := by
   sorry
 example : ¬ Bijective (fun (x : ℝ) ↦ x ^ 2 + 2 * x) := by
   sorry
+
+-- L'énoncé suivant est vrai
+
+example : ¬ ∀ f : ℕ → ℕ, Injective f → Bijective f := by
+  sorry
+  done
