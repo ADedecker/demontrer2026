@@ -123,14 +123,22 @@ example : ¬ Injective (fun (x : ℚ) ↦ 3 * x - 1) := by
   sorry
   done
 ---------------------------------------------------
-
+-- trichotomy
 example : Injective (fun (x : ℤ) ↦ 3 * x - 1) := by
   dsimp [Injective]
   intro x1 x2 h
   have hh : 3*x1 = 3*x2 := by addarith [h]
-  by_contra hc
-  push_neg at hc
-  sorry
+  have H : x1 < x2 ∨ x1= x2 ∨ x1 > x2 := by apply lt_trichotomy
+  obtain h1 | h2 | h3 := H
+  · have hc : ¬ (3*x1 = 3*x2) := by
+      apply ne_of_lt
+      rel [h1]
+    contradiction
+  · apply h2
+  · have hc : ¬ (3*x1 = 3*x2) := by
+      apply ne_of_gt
+      rel [h3]
+    contradiction
   done
 
 example : ¬ Injective (fun (x : ℤ) ↦ 3 * x - 1) := by
