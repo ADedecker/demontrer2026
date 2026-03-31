@@ -90,17 +90,61 @@ example {X Y : Type} {f : X → Y} : Bijective f ↔ ∀ y, ∃! x, f x = y := b
 Bien évidemment un est vrai et l'autre est faux. À vous de trouver lequel est faisable. -/
 
 example : Bijective (fun (x : ℝ) ↦ 4 - 3 * x) := by
-  sorry
+  dsimp [Bijective]
+  constructor
+  · dsimp [Injective]
+    intro x1 x2 Hf
+    calc x1 = (4-3*x1)/(-3) + (4/3) := by ring
+      _     = (4-3*x2)/(-3) + (4/3) := by rw [Hf]
+      _     = x2 := by ring
+  · dsimp [Surjective]
+    intro y
+    use (4 - y)/3
+    ring
+  done
+
 example : ¬ Bijective (fun (x : ℝ) ↦ 4 - 3 * x) := by
   sorry
 
+-----------------------------------------------
+
 example : Bijective (fun (x : ℝ) ↦ x ^ 2 + 2 * x) := by
   sorry
+
 example : ¬ Bijective (fun (x : ℝ) ↦ x ^ 2 + 2 * x) := by
-  sorry
+  dsimp [Bijective]
+  push_neg
+  left
+  dsimp [Injective]
+  push_neg
+  use 3, -5
+  constructor
+  · numbers
+  · numbers
+  done
+
+-----------------------------------------------
+
 
 -- L'énoncé suivant est vrai
 
 example : ¬ ∀ f : ℕ → ℕ, Injective f → Bijective f := by
-  sorry
+  push_neg
+  use (fun x ↦ x + 1)
+  have H : Injective (fun x ↦ x + 1) := by
+    dsimp [Injective]
+    intro x1 x2 hf
+    addarith [hf]
+  constructor
+  · apply H
+  · dsimp [Bijective]
+    push_neg
+    right
+    dsimp [Surjective]
+    push_neg
+    use 0
+    intro x
+    apply ne_of_gt
+    calc x + 1 > 0 + 1 := by extra
+      _        > 0 := by numbers
   done
