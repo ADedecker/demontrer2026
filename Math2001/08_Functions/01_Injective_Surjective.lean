@@ -147,8 +147,12 @@ example : ¬ Injective (fun (x : ℤ) ↦ 3 * x - 1) := by
 ---------------------------------------------------
 
 example : Surjective (fun (x : ℝ) ↦ 2 * x) := by
-  sorry
+  dsimp [Surjective]
+  intro y
+  use y/2
+  ring
   done
+
 example : ¬ Surjective (fun (x : ℝ) ↦ 2 * x) := by
   sorry
   done
@@ -157,8 +161,21 @@ example : ¬ Surjective (fun (x : ℝ) ↦ 2 * x) := by
 example : Surjective (fun (x : ℤ) ↦ 2 * x) := by
   sorry
   done
+
+ --`lemma le_or_succ_le {n a : ℤ} : n ≤ a ∨ a+1 ≤ n`
 example : ¬ Surjective (fun (x : ℤ) ↦ 2 * x) := by
-  sorry
+  dsimp [Surjective]
+  push_neg
+  use 3
+  intro x
+  have hx : x ≤ 1 ∨ 2 ≤ x := by apply le_or_succ_le x 1
+  obtain h1 | h2 := hx
+  · apply ne_of_lt
+    calc 2*x ≤ 2*1 := by rel [h1]
+      _      < 3 := by numbers
+  · apply ne_of_gt
+    calc 2*x ≥  2*2 := by rel [h2]
+      _      > 3 := by numbers
   done
 ---------------------------------------------------
 
@@ -173,6 +190,7 @@ example : ¬ Surjective (fun (n : ℕ) ↦ n ^ 2) := by
 example : ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + 1) := by
   sorry
   done
+
 example : ¬ ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + 1) := by
   sorry
   done
