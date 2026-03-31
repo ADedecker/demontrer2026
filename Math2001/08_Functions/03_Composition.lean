@@ -106,24 +106,50 @@ theorem bijective_iff_exists_inverse {X Y : Type} (f : X → Y) :
 def u (x : ℝ) : ℝ := 5 * x + 1
 
 -- Il faut trouver la bonne définition pour l'inverse de `u`
-def v (x : ℝ) : ℝ := sorry
+def v (y : ℝ) : ℝ := (y-1)/5
 
 example : Inverse u v := by
-  sorry
+  dsimp [Inverse]
+  constructor
+  · ext x
+    calc (v ∘ u) x = v (u x) := by rw [comp_apply]
+    _ = ((5*x +1) - 1)/5 := by dsimp [v, u]
+    _ = x := by ring
+  · ext x
+    calc (u ∘ v) x = u (v x) := by rw [comp_apply]
+      _ = 5 * ((x - 1)/ 5) + 1 := by dsimp [u, v]
+      _ = x := by ring
   done
 
 example {X Y : Type} {f : X → Y} (hf : Injective f) {g : Y → Z} (hg : Injective g) :
     Injective (g ∘ f) := by
-  sorry
+  dsimp [Injective]
+  intro x1 x2 hgf
+  apply hg at hgf
+  apply hf at hgf
+  apply hgf
   done
 
 example {X Y : Type} {f : X → Y} (hf : Surjective f) {g : Y → Z} (hg : Surjective g) :
     Surjective (g ∘ f) := by
-  sorry
+  dsimp [Surjective]
+  intro z
+  have H1 : ∃ y, g y = z := by apply hg
+  obtain ⟨y, H2⟩ := H1
+  have H3 : ∃ x, f x = y := by apply hf
+  obtain ⟨x, H4⟩ := H3
+  use x
+  rw [H4]
+  apply H2
   done
 
 example {X Y : Type} {f : X → Y} {g : Y → X} (h : Inverse f g) : Inverse g f := by
-  sorry
+  dsimp [Inverse] at h
+  dsimp [Inverse]
+  obtain ⟨H1, H2⟩ := h
+  constructor
+  · apply H2
+  · apply H1
   done
 
 -- Plus difficile
