@@ -5,9 +5,17 @@ import Library.Basic
 math2001_init
 set_option pp.funBinderTypes true
 
-open Function
+noncomputable section
 
--- `comp_apply : (g ∘ f) x = g (f x)`
+/-!
+# Composition de fonctions
+
+La tactique `ext` transforme `f = g` en `∀ x, f x = g x`.
+
+`lemma comp_apply {f : X → Y} {g : Y → Z} {x : X} : (g ∘ f) x = g (f x)`
+-/
+
+open Function
 
 def f (a : ℝ) : ℝ := a + 3
 def g (b : ℝ) : ℝ := 2 * b
@@ -30,6 +38,17 @@ example : s ∘ s = id := by
   done
 
 def Inverse {X Y : Type} (f : X → Y) (g : Y → X) : Prop := g ∘ f = id ∧ f ∘ g = id
+
+example : Inverse s s := by
+  dsimp [Inverse]
+  constructor
+  · ext x
+    dsimp [s]
+    ring
+  · ext x
+    dsimp [s]
+    ring
+  done
 
 theorem exists_inverse_of_bijective {X Y : Type} {f : X → Y} (hf : Bijective f) :
     ∃ g : Y → X, Inverse f g := by
@@ -82,13 +101,12 @@ theorem bijective_iff_exists_inverse {X Y : Type} (f : X → Y) :
     apply bijective_of_inverse H
 
 
-/-! # Exercises -/
-
+/-! # Exercices -/
 
 def u (x : ℝ) : ℝ := 5 * x + 1
 
--- Il faut trouver la bonne définition!
-noncomputable def v (x : ℝ) : ℝ := sorry
+-- Il faut trouver la bonne définition pour l'inverse de `u`
+def v (x : ℝ) : ℝ := sorry
 
 example : Inverse u v := by
   sorry
@@ -107,6 +125,8 @@ example {X Y : Type} {f : X → Y} (hf : Surjective f) {g : Y → Z} (hg : Surje
 example {X Y : Type} {f : X → Y} {g : Y → X} (h : Inverse f g) : Inverse g f := by
   sorry
   done
+
+-- Plus difficile
 
 example {X Y : Type} {f : X → Y} {g1 g2 : Y → X} (h1 : Inverse f g1) (h2 : Inverse f g2) :
     g1 = g2 := by
