@@ -202,16 +202,24 @@ example : ¬ ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + 1
 ---------------------------------------------------
 
 example : ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + x) := by
-  intro f inj_f
-  dsimp [Injective] at inj_f
-  dsimp [Injective]
-  intro x1 x2 h
-  -- ?
   sorry
   done
 
 example : ¬ ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + x) := by
-  sorry
+  push_neg
+  use (fun x ↦ - x)
+  constructor
+  · dsimp [Injective]
+    intro x1 x2 hf
+    calc x1 = -x1 * -1 := by ring
+        _   = -x2 * -1 := by rw [hf]
+        _   = x2 := by ring
+  · dsimp [Injective]
+    push_neg
+    use 1, 2
+    constructor
+    · numbers
+    · numbers
   done
 ---------------------------------------------------
 
