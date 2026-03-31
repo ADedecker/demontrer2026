@@ -188,7 +188,12 @@ example : ¬ Surjective (fun (n : ℕ) ↦ n ^ 2) := by
 ---------------------------------------------------
 
 example : ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + 1) := by
-  sorry
+  intro f inj_f
+  dsimp [Injective] at inj_f
+  dsimp [Injective]
+  intro x1 x2 h
+  apply inj_f
+  addarith [h]
   done
 
 example : ¬ ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + 1) := by
@@ -197,8 +202,14 @@ example : ¬ ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + 1
 ---------------------------------------------------
 
 example : ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + x) := by
+  intro f inj_f
+  dsimp [Injective] at inj_f
+  dsimp [Injective]
+  intro x1 x2 h
+  -- ?
   sorry
   done
+
 example : ¬ ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + x) := by
   sorry
   done
@@ -207,29 +218,88 @@ example : ¬ ∀ (f : ℚ → ℚ), Injective f → Injective (fun x ↦ f x + x
 example : ∀ (f : ℤ → ℤ), Surjective f → Surjective (fun x ↦ 2 * f x) := by
   sorry
   done
+
 example : ¬ ∀ (f : ℤ → ℤ), Surjective f → Surjective (fun x ↦ 2 * f x) := by
-  sorry
+  push_neg
+  use (fun x ↦ x)
+  constructor
+  · dsimp [Surjective]
+    intro y
+    use y
+    ring
+  · dsimp [Surjective]
+    push_neg
+    use 3
+    intro x
+    have hx : x ≤ 1 ∨ 2 ≤ x := by apply le_or_succ_le x 1
+    obtain h1 | h2 := hx
+    · apply ne_of_lt
+      calc 2*x ≤ 2*1 := by rel [h1]
+        _      < 3 := by numbers
+    · apply ne_of_gt
+      calc 2*x ≥  2*2 := by rel [h2]
+        _      > 3 := by numbers
   done
 ---------------------------------------------------
 
 example : ∀ c : ℝ, Surjective (fun x ↦ c * x) := by
   sorry
   done
+
 example : ¬ ∀ c : ℝ, Surjective (fun x ↦ c * x) := by
-  sorry
+  push_neg
+  use 0
+  dsimp [Surjective]
+  push_neg
+  use 1
+  intro x
+  have hx : 0*x = 0 := by ring
+  rw [hx]
+  numbers
   done
 
 -- Tous les énoncés à partir d'ici sont vrais. Vous pouvez les prouver.
 
 example (f : X → Y) : Injective f ↔ ∀ x1 x2 : X, x1 ≠ x2 → f x1 ≠ f x2 := by
-  sorry
+  constructor
+  · intro inj_f x1 x2 hx
+    by_contra H
+    have Hx : x1 = x2 := by
+      apply inj_f
+      apply H
+    contradiction
+  · intro h_inj x1 x2 hf
+    by_contra H
+    push_neg at H
+    have Hf : f x1 ≠ f x2 := by
+      apply h_inj
+      apply H
+    contradiction
   done
 
+-- pourquoi le rouge sur le petit point ?
+--`lemma lt_trichotomy (x y : ℝ) : x < y ∨ x = y ∨ x > y`
 example {f : ℚ → ℚ} (hf : ∀ x y, x < y → f x < f y) : Injective f := by
-  sorry
+  dsimp [Injective]
+  intro x1 x2 Hf
+  have H : x1 < x2 ∨ x1 = x2 ∨ x1 > x2 := by apply lt_trichotomy
+  obtain h1 | h2 | h3 := H
+  · by_contra' hx
+    have H_contra : ¬ (f x1 = f x2) := by
+      apply ne_of_lt
+      apply hf
+      apply h1
+  · apply h2
+  · by_contra' hx
+    have H_contra : ¬ (f x1 = f x2) := by
+      apply ne_of_gt
+      apply hf
+      apply h3
   done
 
-example {X : Type} {f : X → ℕ} {x0 : X} (h0 : f x0 = 0) {i : X → X}
-    (hi : ∀ x, f (i x) = f x + 1) : Surjective f := by
+-- Plus difficile, allez d'abord faire la feuille suivante
+
+-- Indication : `x ^ 3 - y ^ 3 = (x - y) * (x ^ 2 + x * y + y ^ 2)`
+example : Injective (fun (x:ℝ) ↦ x ^ 3) := by
   sorry
   done
