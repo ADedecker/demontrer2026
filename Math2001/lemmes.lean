@@ -23,6 +23,7 @@
 
 `lemma eq_zero_or_eq_zero_of_mul_eq_zero {a b : ℝ} (h : a * b = 0) : a = 0 ∨ b = 0`
 
+(Si vous n'arrivez pas à utiliser le lemme suivant, utilisez celui ci-dessus)
 `lemma mul_eq_zero {a b : ℝ} : a * b = 0 ↔ a = 0 ∨ b = 0`
 
 `lemma pow_eq_zero {x : ℝ} {n : ℕ} (H : x ^ n = 0) : x = 0`
